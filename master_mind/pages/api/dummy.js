@@ -8,9 +8,45 @@ export default async function handler(req, res) {
   // Trenger den for å knytte brukeren som spiller til spillet
   const user = await getUserFromCookie(req)
 
+  var colorList = [
+    'red',
+    'green',
+    'blue',
+    'yellow',
+    'orange',
+    'pink',
+    'cyan',
+    'gray',
+  ]
+
   if (user) {
     console.log(user)
   }
 
-  res.status(200).json({ combination: ['red', 'green', 'blue', 'white'] })
+  const colors = [];
+
+  while ( colors.length < 4 ) {
+    const index = Math.floor( Math.random() * colorList.length );
+
+    if ( colors.length == 0 ) {
+      colors.push( colorList[index] );
+    
+    } else {
+
+      var exists = false;
+
+      for ( var i = 0; i < colors.length; i++ ) {
+        if ( colorList[index] == colors[i] ) {
+          exists = true;
+        }
+      }
+
+      if ( !exists ) {
+        colors.push(colorList[index]);
+      }
+
+    }
+  }
+
+  res.status(200).json({ combination: colors, user: user })
 }

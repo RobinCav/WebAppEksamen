@@ -13,6 +13,7 @@ const steps = [
 ]
 
 export default function MasterMind() {
+  
   const [step, setStep] = useState(0)
 
   const currentComponent = steps[step]

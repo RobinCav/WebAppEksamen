@@ -133,7 +133,8 @@ const GameProvider = ({ children }) => {
   React.useEffect(() => {
     const getCombination = async () => {
       // TODO: Må kalle api for å hente rett kombinasjon
-
+      
+      
       dispatch({
         type: 'set_combination',
         payload: { game: null },
