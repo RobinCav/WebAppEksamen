@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { createUser } from '@/lib/utils/api'
 
 const Start = () => {
+  
   useEffect(() => {
     createUser()
   }, [])

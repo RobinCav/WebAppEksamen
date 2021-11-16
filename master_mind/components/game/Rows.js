@@ -22,6 +22,7 @@ const Rows = () => {
   const getHints = () => {
     return state.selectedColors?.reduce(
       (hints, color, index) => {
+
         if (color === state.game.combination[index]) {
           hints.positions += 1
         } else if (state.game.combination.includes(color)) {

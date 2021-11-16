@@ -2,6 +2,7 @@
 import * as React from 'react'
 
 import { createRows } from '@/lib/utils'
+import { response } from 'msw'
 
 const GameContext = React.createContext()
 
@@ -18,18 +19,7 @@ const colors = [
 
 const rows = createRows(10)
 
-const initialState = {
-  game: null,
-  rows,
-  currentRow: 0,
-  currentColor: null,
-  colors,
-  selectedColors: [],
-  remaningColors: colors,
-  foundCombination: false,
-  isComplete: false,
-}
-
+// Brukes av gameReducer
 const getRemainingColors = (selectedColors, currentColor) => {
   const availableColors = colors.filter((color) => color !== currentColor)
   const alreadySelectedIndex = selectedColors?.findIndex(
@@ -45,6 +35,10 @@ const getRemainingColors = (selectedColors, currentColor) => {
   return availableColors.filter((color) => !selectedColors?.includes(color))
 }
 
+
+
+// Reduserer antall valgbare farger etter at brukeren har brukt opp en farge
+// Dette er funksjonen til reduseren i componenten.
 function gameReducer(state, action) {
   const { payload } = action
 
@@ -127,28 +121,50 @@ function gameReducer(state, action) {
   }
 }
 
-const GameProvider = ({ children }) => {
+
+
+const initialState = {
+  game: null,
+  rows,
+  currentRow: 0,
+  currentColor: null,
+  colors,
+  selectedColors: [],
+  remaningColors: colors,
+  foundCombination: false,
+  isComplete: false,
+}
+
+
+const GameProvider = ({ children }) => {  // --------------------------------------
+
   const [state, dispatch] = React.useReducer(gameReducer, initialState)
 
   React.useEffect(() => {
     const getCombination = async () => {
+      
       // TODO: Må kalle api for å hente rett kombinasjon
-      
-      
+      const request = await fetch("http://localhost:3000/api/v1/combination");
+      const combination_user_data = await request.json();
+
       dispatch({
         type: 'set_combination',
-        payload: { game: null },
+        payload: { game: combination_user_data },
       })
+
     }
 
-    getCombination()
+    getCombination()    
   }, [])
+
   const value = { state, dispatch }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>
 }
 
-function useGameContext() {
+
+
+function useGameContext() { // --------------------------------------
   const context = React.useContext(GameContext)
 
   if (context === undefined) {
