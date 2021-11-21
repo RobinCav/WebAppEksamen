@@ -1,14 +1,23 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-ternary */
-import { useCallback } from 'react'
-
+import { useCallback, useEffect, useState } from 'react'
 import ColorPicker from './ColorPicker'
 import Row from './Row'
 import Solution from './Solution'
 import { useGameContext } from '@/contexts/game-context'
 
+import * as gameController from '@/features/game/game.controller'
+
 const Rows = () => {
+
   const { state, dispatch } = useGameContext()
+  const [ user, setUser ] = useState(0)
+
+  useEffect( async () => {
+    const request = await fetch("http://localhost:3000/api/v1/user");
+    const response = await request.json();
+    setUser(response.user);
+  },[])
 
   const isCurrentRow = useCallback(
     (rowNumber) => {
@@ -17,44 +26,54 @@ const Rows = () => {
     [state.currentRow]
   )
 
-  // TODO: Denne må skrives om og bo i en service
-
+  // TODO: Denne må skrives om og bo i en service❌
   const getHints = () => {
     return state.selectedColors?.reduce(
       (hints, color, index) => {
-
         if (color === state.game.combination[index]) {
           hints.positions += 1
         } else if (state.game.combination.includes(color)) {
           hints.colors += 1
         }
-
         return hints
       },
       { positions: 0, colors: 0 }
     )
   }
 
-  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI
 
+  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI❌
   const handleRowSubmit = async (event) => {
-    event.preventDefault()
-    const hints = getHints()
+    event.preventDefault();
+    const hints = getHints();
 
-    dispatch({ type: 'set_hints', payload: { hints } })
+    dispatch({ type: 'set_hints', payload: { hints } });
+
+    console.log(state.game.combination);
+
     if (hints?.positions === 4) {
-      // TODO: Må lagre antall forsøk brukeren brukte på å løse oppgaven
 
-      dispatch({ type: 'set_complete' })
+      // TODO: Må lagre antall forsøk brukeren brukte på å løse oppgaven❌
+      const tries = state.currentRow + 1;
+      gameController.processGame( state.game.combination, user, tries, true );
+
+      dispatch({ type: 'set_complete' });
     } else {
-      // TODO: Må lagre at brukeren ikke klarte oppgaven når det ikke er flere forsøk igjen
-      dispatch({ type: 'increase_row' })
+
+      // TODO: Må lagre at brukeren ikke klarte oppgaven når det ikke er flere forsøk igjen❌
+      const tries = state.currentRow + 1;
+
+      if ( tries == 10 ) {
+        gameController.processGame( state.game.combination, user, tries, false );
+      }
+
+      dispatch({ type: 'increase_row' });
     }
   }
 
+
   const handleCellClick = (event) => {
     const { cell } = event.currentTarget.dataset
-
     if (state.currentColor) {
       dispatch({ type: 'set_row_colors', payload: { cell } })
     }

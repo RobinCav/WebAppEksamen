@@ -1,12 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getUserFromCookie } from '@/lib/utils/api'
-
 export default async function handler(req, res) {
-  // Funksjon brukt for å hente ut hvem som prøver applikasjone
-  // Du kan kopiere denne linjen til dere du måtte trenge den
-  // Trenger den for å knytte brukeren som spiller til spillet
-  const user = await getUserFromCookie(req)
 
   var colorList = [
     'red',
@@ -19,10 +13,9 @@ export default async function handler(req, res) {
     'gray',
   ]
 
-  
-  if ( user && req.method == "GET" ) {
+  if ( req.method == "GET" ) {
 
-    // Lag en array med 4 unike farger
+    // Lager en array med 4 unike farger
     const colors = [];
     while ( colors.length < 4 ) {
       const index = Math.floor( Math.random() * colorList.length );
@@ -41,18 +34,17 @@ export default async function handler(req, res) {
       }
     }
 
-    res.status(200).json({ combination: colors, user: user })
+    res.status(200).json({ combination: colors })
 
   }
   else {
 
     const response = {
-      message: "Failed to get user data"
+      message: "Failed to get combination"
     };
 
     res.status(400).json(response)
 
   }
-
 
 }

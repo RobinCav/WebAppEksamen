@@ -4,7 +4,9 @@ import * as React from 'react'
 import { createRows } from '@/lib/utils'
 import { response } from 'msw'
 
+
 const GameContext = React.createContext()
+
 
 const colors = [
   'red',
@@ -17,28 +19,23 @@ const colors = [
   'gray',
 ]
 
+
 const rows = createRows(10)
 
-// Brukes av gameReducer
+
 const getRemainingColors = (selectedColors, currentColor) => {
   const availableColors = colors.filter((color) => color !== currentColor)
   const alreadySelectedIndex = selectedColors?.findIndex(
     (color) => color === currentColor
   )
-
   if (selectedColors?.length === 0) return availableColors
-
   if (alreadySelectedIndex > 0) {
     selectedColors[alreadySelectedIndex] = currentColor
   }
-
   return availableColors.filter((color) => !selectedColors?.includes(color))
 }
 
 
-
-// Reduserer antall valgbare farger etter at brukeren har brukt opp en farge
-// Dette er funksjonen til reduseren i componenten.
 function gameReducer(state, action) {
   const { payload } = action
 
@@ -122,7 +119,6 @@ function gameReducer(state, action) {
 }
 
 
-
 const initialState = {
   game: null,
   rows,
@@ -136,42 +132,32 @@ const initialState = {
 }
 
 
-const GameProvider = ({ children }) => {  // --------------------------------------
-
+const GameProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(gameReducer, initialState)
-
   React.useEffect(() => {
     const getCombination = async () => {
-      
-      // TODO: Må kalle api for å hente rett kombinasjon
+      // TODO: Må kalle api for å hente rett kombinasjon ✔️
       const request = await fetch("http://localhost:3000/api/v1/combination");
-      const combination_user_data = await request.json();
-
+      const combination = await request.json();
       dispatch({
         type: 'set_combination',
-        payload: { game: combination_user_data },
+        payload: { game: combination },
       })
-
     }
-
-    getCombination()    
+    getCombination()
   }, [])
-
   const value = { state, dispatch }
-
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>
 }
 
 
-
-function useGameContext() { // --------------------------------------
+function useGameContext() { 
   const context = React.useContext(GameContext)
-
   if (context === undefined) {
     throw new Error('useGameContext must be used within a GameProvider')
   }
-
   return context
 }
+
 
 export { GameProvider, useGameContext }

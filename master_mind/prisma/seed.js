@@ -9,7 +9,6 @@ const games = [
   { combination: "RGASSS", user: "sdas432545dsa", numberOfTries: 1, foundCombination: false }
 ];
 
-
 const createGames = async () => {
   const gamesPromises = games.map( async (game) => {
     await prisma.game.create({ 
