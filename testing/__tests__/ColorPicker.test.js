@@ -2,12 +2,11 @@
  * @jest-environment jsdom
  */
 
+/*
 describe('ColorPicker', () => {
-  
   afterEach(() => {
     jest.clearAllMocks()
   })
-
   it('should render a list of all colors passed to it', () => {})
 
   it('should have disabled button if color does not match', () => {})
@@ -18,3 +17,5 @@ describe('ColorPicker', () => {
 
   it('should updated selectedColor and active buttons on click', async () => {})
 })
+
+*/
