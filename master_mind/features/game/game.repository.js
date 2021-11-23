@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 export async function saveEntry( combination, user, tries, completion ) {
-    console.log("repository called");
 
     axios.post('http://localhost:3000/api/v1/game', {
         combination: combination,
@@ -11,12 +10,13 @@ export async function saveEntry( combination, user, tries, completion ) {
         completion: completion
     })
     .then(function (response) {
-
-        console.log(response.data);
+        if ( response.data.success == false ) {
+            return false;
+        }
+        return true;
     })
     .catch(function (error) {
-
         console.log(error);
     });
-
+    
 }

@@ -12,7 +12,17 @@ export default async function game(req, res) {
             foundCombination: req.body.completion
         };
 
-        res.status(200).json({ result: game })
-    }
+        const insertion = await prisma.game.create({
+            data: {
+                ...game
+            }
+        })
 
+        if ( Object.keys(insertion).length == 5 ) {
+            res.status(200).json({ "success": true })
+        } else {
+            res.status(405).json({ "success": false })
+        }
+
+    }
 }
