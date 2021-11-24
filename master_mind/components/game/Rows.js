@@ -26,7 +26,7 @@ const Rows = () => {
     [state.currentRow]
   )
 
-  // TODO: Denne må skrives om og bo i en service❌
+  // TODO: Denne må skrives om og bo i en service ❌❌❌❌❌❌❌❌❌
   const getHints = () => {
     return state.selectedColors?.reduce(
       (hints, color, index) => {
@@ -42,7 +42,7 @@ const Rows = () => {
   }
 
 
-  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI❌
+  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI ❌❌❌❌❌❌❌
   const handleRowSubmit = async (event) => {
     event.preventDefault();
     const hints = getHints();
@@ -53,14 +53,14 @@ const Rows = () => {
 
     if (hints?.positions === 4) {
 
-      // TODO: Må lagre antall forsøk brukeren brukte på å løse oppgaven❌
+      // TODO: Må lagre antall forsøk brukeren brukte på å løse oppgaven ✔️✔️✔️✔️✔️✔️✔️
       const tries = state.currentRow + 1;
       gameController.processGame( state.game.combination, user, tries, true );
 
       dispatch({ type: 'set_complete' });
     } else {
 
-      // TODO: Må lagre at brukeren ikke klarte oppgaven når det ikke er flere forsøk igjen❌
+      // TODO: Må lagre at brukeren ikke klarte oppgaven når det ikke er flere forsøk igjen ✔️✔️✔️✔️✔️✔️✔️✔️
       const tries = state.currentRow + 1;
 
       if ( tries == 10 ) {

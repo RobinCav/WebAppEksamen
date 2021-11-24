@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 export function useCounter() {
 
-  const [counter, setCounter] = useState(1)
+  const [counter, setCounter] = useState(0)
 
   const add = () => {
     setCounter(counter + 1)
@@ -13,5 +13,4 @@ export function useCounter() {
   }
 
   return { counter, add, subtract }
-
 }

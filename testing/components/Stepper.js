@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 const steps = [{ name: 'Hjem' }, { name: 'Game' }, { name: 'End' }]
 
 const Stepper = () => {
@@ -12,4 +14,7 @@ const Stepper = () => {
       ) : null}
     </>
   )
+
 }
+
+export default Stepper
