@@ -13,12 +13,13 @@ export const findMany = async () => {
 
 
 
-export const create = async (data) => {
+
+export const create = async (id, isResolved, title,description, creator, severity,created_at, department) => {
   // bruker try/catch for å håndtere feil gitt av Prisma
   try {
     // bruker prisma clienten til å lage bruker
     // .create er metoden vi bruker for å lage noe
-    const issue = await prisma.issue.create({ data })
+    const issue = await prisma.issue.create({ id, isResolved,title,description, creator, severity,created_at, department })
 
     return { success: true, data: issue }
   } catch (error) {
@@ -26,11 +27,13 @@ export const create = async (data) => {
   }
 }
 
+
+/*
 export const exist = async ({ id }) => {
   try {
     const issue = await prisma.issue.findUnique({
       where: {
-        id,
+        id
       },
     })
 
@@ -39,3 +42,4 @@ export const exist = async ({ id }) => {
     return { success: false, error: 'Failed finding issue' }
   }
 }
+*/

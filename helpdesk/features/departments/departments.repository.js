@@ -26,11 +26,11 @@ export const create = async (data) => {
   }
 }
 
-export const exist = async ({ id }) => {
+export const exist = async ({ name }) => {
   try {
     const department = await prisma.department.findUnique({
       where: {
-        id,
+        name,
       },
     })
 

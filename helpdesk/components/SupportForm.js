@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { create } from 'react-test-renderer';
 
 
 
@@ -12,21 +11,35 @@ export default function SupportForm () {
     title: '',
     description: '',
     creator: '',
-    severity: '',
+    severity: 0,
     created_at: '',
-    department: null
+    department: null, 
     
   })
 
   const [departments, setDepartments] = useState([])
 
+  
+  
+  const createIssue = (data) => async () => {
 
-  const createIssue = async() =>{
-    
-    const issue = { title: form.title, description: form.description, creator: form.creator, severity:form.severity, created_at: "2020-03-09T22:18:26.625Z", department: form.department };
-    axios.post('/api/issues', issue)
-        .then(response => console.log(reponse));
-  }
+    try {
+      const result = await axios.post("/api/issues", {
+        "id": 1,
+        "isResolved": false,
+        "title": data.title, 
+        "description": data.description,
+        "creator": data.creator,
+        "severity": data.severity,
+        "created_at": "2020-03-09T22:18:26.625Z", 
+        "department": data.department
+    });
+    } catch (err) {
+      const error = err.message || "Error Upload Images";
+      
+    }
+};
+
 
   const getDepartments = async () => {
     const response = await fetch('/api/departments')
@@ -97,12 +110,12 @@ export default function SupportForm () {
         value={form.severity}        onChange={handleInputOnChange}>
           <option>1</option>
           <option>2</option>
-          <option>Høy</option>
+          <option>3</option>
 
           </select>
         
       </div>
-      <button type="sumbit" onClick= {createIssue()}>Send henvendelse</button>
+      <button type="sumbit" onClick= {createIssue( {form})}>Send henvendelse</button>
     </form>
   )
 }

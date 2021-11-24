@@ -11,15 +11,15 @@ export const listIssues = async (req, res) => {
 }
 
 export const createIssue = async (req, res) => {
-  const { title,description, creator, severity,created_at } = req.body
+  const { id, title,description, creator, severity,created_at } = req.body
 
   // 400 Bad Request hvis email mangler
-  if (!title || !description || !creator || !severity || !created_at )
+  if (  !title || !description || !creator || !severity || !created_at )
     return res
       .status(400)
       .json({ success: false, error: 'Missing required fields' })
 
-  const createdIssue = await issuesService.create({
+  const createdIssue = await issuesService.create({ id,
     title,description, creator, severity,created_at
     })
 
