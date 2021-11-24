@@ -14,6 +14,10 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  text-align: center;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -33,19 +37,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px black solid;
+  border: 1px rgb(168, 168, 168) solid;
   border-radius: 20px;
   height: 200px;
-  text-align: center;
   transform: rotateY(var(--rotate-y, 0));
   transition: 250ms;
   transform-style: preserve-3d;
-  
 }
 
 .luke p {
-  margin-top: 25%;
-  font-size: 30px;
+  font-size: 2vh;
   pointer-events: none;
 }
 
@@ -58,10 +59,8 @@ body {
 .luke .back {
   transform: rotateY(180deg);
   backface-visibility: hidden;
-}
-
-.back :hover{
-  color: aqua;
+  position: absolute;
+  height: max-height;
 }
 
 .luke-grid {
@@ -72,11 +71,46 @@ body {
 
 }
 
-
 .flip {
-  color:#96E8C5;
+  background-color:#96E8C5;
   --rotate-y: 180deg;
 }
+
+.luke .nmbr {
+  margin-top: 30px;
+  font-size: 40px;
+}
+
+.shake{
+  animation: shake 1s infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px rgb(168, 168, 168) solid;
+  border-radius: 20px;
+  height: 200px;
+  border: red solid 1px;
+}
+@keyframes shake {
+0%  { transform: translate(2px, 1px)   rotate(0deg); }
+10% { transform: translate(-1px, -2px) rotate(-2deg); }
+20% { transform: translate(-3px, 0px)  rotate(3deg);  font-size:large; }
+30% { transform: translate(0px, 2px)   rotate(0deg);  }
+40% { transform: translate(1px, -1px)  rotate(1deg);  font-size: larger; }
+50% { transform: translate(-1px, 2px)  rotate(-1deg); }
+60% { transform: translate(-3px, 1px)  rotate(0deg);  }
+70% { transform: translate(2px, 1px)   rotate(-2deg); }
+80% { transform: translate(-1px, -1px) rotate(6deg);  font-size: x-large;}
+90% { transform: translate(2px, 2px)   rotate(0deg); }
+100%{ transform: translate(1px, -2px)  rotate(-1deg); }
+}
+
+
+
+
+
+
+
 
 
 

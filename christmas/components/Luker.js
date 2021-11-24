@@ -1,6 +1,7 @@
 
 import Luke from "./Luke";
 
+
 export const getRandomString = () => {
   const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   const randomNumb = '0123456789';
@@ -19,8 +20,8 @@ export const luker = [
   {
     id: "hatch-1",
     nr: 1,
-    text: "3",
-    open: false
+    text: "",
+    open: false,
   },
   {
     id: "hatch-2",
@@ -168,6 +169,7 @@ const generateCode = () =>{
 }
 
 generateCode()
+
 
 
 const Luker = () =>{ 

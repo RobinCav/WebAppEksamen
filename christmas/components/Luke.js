@@ -1,27 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import React from 'react';
+import axios from 'axios'
 
+const Luke = ({lukeData : {id, nr, text, open}}) => {
 
-const Luke = ({lukeData : {id, nr, text, open}, handleClick}) => {
-  const [flip, setFlip] = useState(false)
+  let today = new Date()
+  let test = new Date(2020, 11, 12)
+  let testDag = test.getDate();
+
+  const [flip, setFlip] = useState(false);
+  const flipCard = () => {
+    if (nr <= testDag)
+    setFlip(true)
+  }
+
+  const [shake, setShake] = useState(false);
+  const shakeCard = () => {
+    // Button begins to shake
+    setShake(true);
+    
+    // Buttons stops to shake after 2 seconds
+    setTimeout(() => setShake(false), 1000);
+  }
 
   open = flip;
 
-  return (
-    <div className={`luke ${flip ? 'flip' : ''}` }onClick={() => setFlip(true)}>
+  // Bestemmer om det skal lages en luke som kan åpnes, eller ikke
+  if (nr <= testDag){
 
-      <div className="front">
-        <p>{nr}</p>
+    // Denne luken kan åpnes
+    return (
+      <div className={`luke ${flip ? 'flip' : ''}` } onClick={flipCard}>
+  
+        <div className="front" >
+          <p className="nmbr">{nr}</p>
+        </div>
+  
+        <div className="back">
+           <p>{text}</p>
+        </div>
+  
       </div>
+    )
+  }
 
-      <div className="back">
-        <p>{text}</p>
+  //Denne luken kan ikke åpnes
+  return (
+    <div className={shake ? "shake" : "luke"}  style={{background : "#e2e2e2"}} onClick={shakeCard}>
+
+      <div className="front" >
+        <p>Åpnes om {nr - testDag} dager</p>
       </div>
     </div>
   )
-
-
-
-  
 }
 
 
