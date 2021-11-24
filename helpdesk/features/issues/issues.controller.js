@@ -3,24 +3,24 @@ import * as issuesService from './issues.service'
 
 
 export const listIssues = async (req, res) => {
-  const feeds = await issuesService.getToList()
+  const issues = await issuesService.getToList()
 
-  if (feeds.error) return res.status(500).json(feeds.error)
+  if (issues.error) return res.status(500).json(issues.error)
 
-  return res.status(200).json(feeds)
+  return res.status(200).json(issues)
 }
 
 export const createIssue = async (req, res) => {
   const { title,description, creator, severity,created_at } = req.body
 
   // 400 Bad Request hvis email mangler
-  if (!title || !description || !creator || !severity || !created_at || !department)
+  if (!title || !description || !creator || !severity || !created_at )
     return res
       .status(400)
       .json({ success: false, error: 'Missing required fields' })
 
   const createdIssue = await issuesService.create({
-    title,description, creator, severity,created_at, department
+    title,description, creator, severity,created_at
     })
 
   // 500 Internal Server Error hvis noe går galt
