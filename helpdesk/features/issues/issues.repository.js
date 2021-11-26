@@ -40,21 +40,20 @@ export const create = async ({title,description, creator, severity, departmentId
 }
 
 
-export const findUnique = async (id) => {
+
+export const findUnique = async (identifier) => {
   try {
     const issue = await prisma.issue.findUnique({
       where: {
-        ...id,
+       ...identifier,
       },
     })
 
     return { success: true, data: issue }
   } catch (error) {
-    return { success: false, error: 'Failed finding issue' }
+    return { success: false, error: 'Ffssssssss' }
   }
 }
-
-
 
 export const removeById = async (id) => {
   try {

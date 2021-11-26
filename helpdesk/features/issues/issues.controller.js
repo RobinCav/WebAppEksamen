@@ -40,16 +40,16 @@ export const createIssue = async (req, res) => {
 
 
 export const getIssueById = async (req, res) => {
-  const { id } = req.query
+  const { title } = req.query
 
-  if (!id)
+  if (!title)
     return res.status(400).json({
       success: false,
       error: 'Missing required fields: title, desc or sev',
     })
 
   const issue = await issuesService.getIssueById({
-    id,
+    title,
   })
 
   if (!issue?.success) {

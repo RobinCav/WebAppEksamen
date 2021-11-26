@@ -1,8 +1,21 @@
+import { useState, useEffect } from 'react';
+
+
 /* eslint-disable no-ternary */
 const SupportItem = ({ item }) => {
-  const severityHigh = item?.severity === 'high' ? 'Høy' : null
-  const severityMedium = item?.severity === 'medium' ? 'Medium' : null
-  const severityLow = item?.severity === 'low' ? 'Lav' : null
+  const severityHigh = item?.severity === 3 ? 'Høy' : null
+  const severityMedium = item?.severity === 2 ? 'Medium' : null
+  const severityLow = item?.severity === 1 ? 'Lav' : null
+
+  const [issue, setIssue] = useState([])
+
+  const getItem = async () => {
+    const response = await fetch('/api/issues/' + item.title)
+    const data = await response.json()
+    setIssue(data.data)
+
+  }
+  useEffect(() => getItem(), [])
 
   return (
     <li className="issue">
@@ -18,7 +31,7 @@ const SupportItem = ({ item }) => {
       <footer>
         <span>{item?.createdAt}</span>
         <div className="issue_actions">
-          <button type="button">Se kommentarer (2)</button>
+          <button type="button" onClick = {}>Se kommentarer (2)</button>
           <button type="button">Legg til kommentar</button>
           <button type="button">Avslutt</button>
         </div>

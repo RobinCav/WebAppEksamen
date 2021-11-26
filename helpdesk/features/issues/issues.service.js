@@ -1,14 +1,14 @@
 import * as issuesRepo from './issues.repository'
 
-export const getIssueById = async ({ id }) => {
-  const issue = await issuesRepo.findUnique({ id })
+export const getIssueById = async ({ title }) => {
+  const issue = await issuesRepo.findUnique({ title })
 
   if (!issue.success) return { success: false, error: issue.error }
   if (!issue.data)
     return {
       success: false,
       type: 'issue.NotExist',
-      error: `issue with ${id} does not exist`,
+      error: `issue with ${title} does not exist`,
     }
 
   return { success: true, data: issue.data }
