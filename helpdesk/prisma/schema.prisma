@@ -11,33 +11,32 @@ datasource db {
 }
 
 model comment{
-  id            String         @id @default(cuid())
+  id            Int         @id @default(autoincrement())
   comment       String
-  created_at    DateTime         
-
+  created_at    DateTime?    @default(now())  
   issue        issue          @relation(fields: [issueId], references: [id])
-  issueId      String
+  issueId      Int
 }
 
 model department{
-    id            String         @id @default(cuid())
+    id            Int        @id @default(autoincrement())
     name          String
-    created_at    DateTime
+    created_at    DateTime?   @default(now())
     issues        issue[]
 
 }
 
 model issue{
-  id            String         @id @default(cuid())
-  isResolved    Boolean
-  title         String
+  id            Int            @id @default(autoincrement())
+  isResolved    Boolean?       @default(false)
+  title         String         @unique
   description   String
   creator       String
-  severity      Int 
-  created_at    DateTime
-  department    department    @relation(fields: [departmentId], references: [id])
-  departmentId  String
-  comments      comment[]
+  severity      Int            
+  created_at    DateTime?      @default(now())
+  department    department     @relation(fields: [departmentId], references: [id])
+  departmentId  Int
+  comments      comment[]     
 }
 
 

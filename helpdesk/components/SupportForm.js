@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link'
+
 
 
 
@@ -11,8 +13,7 @@ export default function SupportForm () {
     title: '',
     description: '',
     creator: '',
-    severity: 0,
-    created_at: '',
+    severity: 1,
     department: null, 
     
   })
@@ -21,23 +22,35 @@ export default function SupportForm () {
 
   
   
-  const createIssue = (data) => async () => {
+  const createIssue = () => async () => {
 
     try {
-      const result = await axios.post("/api/issues", {
-        "id": 1,
-        "isResolved": false,
-        "title": data.title, 
-        "description": data.description,
-        "creator": data.creator,
-        "severity": data.severity,
-        "created_at": "2020-03-09T22:18:26.625Z", 
-        "department": data.department
-    });
-    } catch (err) {
-      const error = err.message || "Error Upload Images";
-      
+      console.log(form.department)
+      for(let i=0; i < departments.length;i++){
+        let dep = departments[i]
+        if(dep.name == form.department){
+        
+          let data = JSON.stringify({
+                   
+            title: form.title, 
+            description: form.description,
+            creator: form.creator,
+            severity: parseInt(form.severity),
+            departmentId: dep.id
+          });
+          console.log(data)
+          console.log("dep id: " + dep.id)
+          const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
+
+
+        }
+
+      }
+
+    } catch (error) {
+      console.error(error.response.data);     
     }
+    
 };
 
 
@@ -115,7 +128,7 @@ export default function SupportForm () {
           </select>
         
       </div>
-      <button type="sumbit" onClick= {createIssue( {form})}>Send henvendelse</button>
+      <button type="sumbit" onClick= {createIssue( )}>Send henvendelse</button>
     </form>
   )
 }

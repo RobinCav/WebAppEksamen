@@ -14,12 +14,24 @@ export const findMany = async () => {
 
 
 
-export const create = async (id, isResolved, title,description, creator, severity,created_at, department) => {
+export const create = async ({title,description, creator, severity, departmentId}) => {
   // bruker try/catch for å håndtere feil gitt av Prisma
   try {
     // bruker prisma clienten til å lage bruker
     // .create er metoden vi bruker for å lage noe
-    const issue = await prisma.issue.create({ id, isResolved,title,description, creator, severity,created_at, department })
+    const issue = await prisma.issue.create({
+      data:{
+        title,
+        description,
+         creator,
+          severity,
+           department: {
+             connect:{
+               id: departmentId
+             }
+           }
+    }
+       })
 
     return { success: true, data: issue }
   } catch (error) {
@@ -28,12 +40,11 @@ export const create = async (id, isResolved, title,description, creator, severit
 }
 
 
-/*
-export const exist = async ({ id }) => {
+export const findUnique = async (id) => {
   try {
     const issue = await prisma.issue.findUnique({
       where: {
-        id
+        ...id,
       },
     })
 
@@ -42,4 +53,17 @@ export const exist = async ({ id }) => {
     return { success: false, error: 'Failed finding issue' }
   }
 }
-*/
+
+
+
+export const removeById = async (id) => {
+  try {
+    const issue = await prisma.issue.delete({ where: { id } })
+
+    return { success: true, data: issue }
+  } catch (error) {
+    return { success: false, error: 'Failed deleting issue' }
+  }
+}
+
+

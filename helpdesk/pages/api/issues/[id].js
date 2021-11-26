@@ -12,9 +12,11 @@ export default async function handler(req, res) {
     case 'delete':
       await issuesController.removeIssueById(req, res)
       break
+      /*
     case 'put':
       await issuesController.updateIssuebyId(req, res)
       break
+      */
     default:
       res.status(405).end()
   }

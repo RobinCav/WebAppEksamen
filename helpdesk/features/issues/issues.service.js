@@ -1,5 +1,18 @@
 import * as issuesRepo from './issues.repository'
 
+export const getIssueById = async ({ id }) => {
+  const issue = await issuesRepo.findUnique({ id })
+
+  if (!issue.success) return { success: false, error: issue.error }
+  if (!issue.data)
+    return {
+      success: false,
+      type: 'issue.NotExist',
+      error: `issue with ${id} does not exist`,
+    }
+
+  return { success: true, data: issue.data }
+}
 export const getToList = async () => {
   const issues = await issuesRepo.findMany()
 
@@ -8,12 +21,22 @@ export const getToList = async () => {
   return { success: true, data: issues.data }
 }
 
-export const create = async ({ id,title,description, creator, severity,created_at  }) => {
+export const create = async ({ title,description, creator, severity, departmentId  }) => {
 
-  const createdIssue = await issuesRepo.create({ id,title,description, creator, severity,created_at })
+  const createdIssue = await issuesRepo.create({ title,description, creator, severity, departmentId })
 
   // feil ved lagring av bruker via ORM
   if (!createdIssue.success) return { success: false, error: createdIssue.error }
 
   return { success: true, data: createdIssue.data }
+}
+
+export const deleteById = async ({ id }) => {
+ 
+
+  const removedIssue = await issuesRepo.removeById(issue.data.id)
+
+  if (!removedIssue.success) return { success: false, error: removedIssue.error }
+
+  return { success: true, data: removedIssue.data }
 }

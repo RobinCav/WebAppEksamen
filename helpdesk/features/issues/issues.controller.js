@@ -11,16 +11,16 @@ export const listIssues = async (req, res) => {
 }
 
 export const createIssue = async (req, res) => {
-  const { id, title,description, creator, severity,created_at } = req.body
+  const { title,description, creator, severity, departmentId} = req.body
 
   // 400 Bad Request hvis email mangler
-  if (  !title || !description || !creator || !severity || !created_at )
+  if (  !title  )
     return res
       .status(400)
       .json({ success: false, error: 'Missing required fields' })
 
-  const createdIssue = await issuesService.create({ id,
-    title,description, creator, severity,created_at
+  const createdIssue = await issuesService.create({ 
+    title,description, creator, severity, departmentId
     })
 
   // 500 Internal Server Error hvis noe går galt
@@ -36,4 +36,68 @@ export const createIssue = async (req, res) => {
     success: true,
     data: createdIssue.data,
   })
+}
+
+
+export const getIssueById = async (req, res) => {
+  const { id } = req.query
+
+  if (!id)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: title, desc or sev',
+    })
+
+  const issue = await issuesService.getIssueById({
+    id,
+  })
+
+  if (!issue?.success) {
+    switch (issue?.type) {
+      case 'issue.NotExist':
+        return res.status(404).json({
+          success: false,
+          error: issue.error,
+        })
+      default:
+        return res.status(500).json({
+          success: false,
+          error: issue.error,
+        })
+    }
+  }
+
+  return res.status(200).json(issue)
+}
+
+
+export const removeIssueById = async (req, res) => {
+  const { id } = req.query
+
+  if (!id)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: title, desc or sev',
+    })
+
+  const removedIssue = await issuesService.deleteById({
+    id,
+  })
+
+  if (!removedIssue?.success) {
+    switch (removedIssue?.type) {
+      case 'issue.NotExist':
+        return res.status(404).json({
+          success: false,
+          error: removedIssue.error,
+        })
+      default:
+        return res.status(500).json({
+          success: false,
+          error: removedIssue.error,
+        })
+    }
+  }
+
+  return res.status(204).end()
 }

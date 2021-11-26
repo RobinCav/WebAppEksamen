@@ -9,13 +9,6 @@ export const getToList = async () => {
 }
 
 export const create = async ({ name }) => {
-  const department = await departmentRepo.exist({ name })
-
-  // feil med hentingen av data fra databasen via ORM
-  if (department?.error) return { success: false, error: department.error }
-
-  // bruker finnes hvis data har verdi
-  if (department.data) return { success: false, error: 'department already exist' }
 
   const createdDepartment = await departmentRepo.create({ name })
 
