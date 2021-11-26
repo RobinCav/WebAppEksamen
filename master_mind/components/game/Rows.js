@@ -26,7 +26,7 @@ const Rows = () => {
     [state.currentRow]
   )
 
-  // TODO: Denne må skrives om og bo i en service ❌❌❌❌❌❌❌❌❌
+  // TODO: Denne må skrives om og bo i en service
   const getHints = () => {
     return state.selectedColors?.reduce(
       (hints, color, index) => {
@@ -41,15 +41,17 @@ const Rows = () => {
     )
   }
 
-
-  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI ❌❌❌❌❌❌❌
+  // TODO: Skrives om til å kalle på api for å få hints som kan brukes til å oppdatere UI
   const handleRowSubmit = async (event) => {
     event.preventDefault();
+
     const hints = getHints();
 
-    dispatch({ type: 'set_hints', payload: { hints } });
+    console.log( hints );
 
-    console.log(state.game.combination);
+    dispatch({ type: 'set_hints', payload: { hints } });
+    
+    //console.log(state.game.combination);
 
     if (hints?.positions === 4) {
 
@@ -69,8 +71,8 @@ const Rows = () => {
 
       dispatch({ type: 'increase_row' });
     }
-  }
 
+  }
 
   const handleCellClick = (event) => {
     const { cell } = event.currentTarget.dataset
