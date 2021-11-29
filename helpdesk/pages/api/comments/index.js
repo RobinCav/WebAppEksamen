@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 switch (method?.toLowerCase()) {
     case 'get':
       // kaller på kontrolleren som brukes til å hente alle brukere
-      await commentsController.listAllComments(req, res)
+      await commentsController.listComments(req, res)
       break
     case 'post':
       // kaller på kontrolleren som brukes til å lage ny bruker

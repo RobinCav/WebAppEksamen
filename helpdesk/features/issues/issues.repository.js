@@ -66,3 +66,19 @@ export const removeById = async (id) => {
 }
 
 
+export const findComments = async ({ id }) => {
+  try {
+    const issueWithComments = await prisma.issue.findMany({
+      where: {
+        id,
+      },
+      include: {
+        comments: true,
+      },
+    })
+
+    return { success: true, data: issueWithComments }
+  } catch (error) {
+    return { success: false, error: 'Failed finding issue with comments' }
+  }
+}

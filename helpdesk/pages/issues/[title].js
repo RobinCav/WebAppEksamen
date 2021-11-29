@@ -12,33 +12,34 @@ const getSupportItem = async (title) => {
   return data.data
 }
 
-export default async function Home () {
-  
-  const [issue, setIssue] = useState([])
+export default function Home() {
+  const [Issue, setIssue] = useState([])
   const router = useRouter()
   const {title} = router.query
 
-  const test = await getSupportItem(title)
-  console.log(test)
-  /*
-  useEffect( async() =>{
-    async function fetchMyAPI() {
-      const is = await getSupportItem(title)
+  const getIssue = async () => {
+      const response = await fetch('/api/issues/' + title )
+      const data = await response.json()
+      setIssue(data.data)
+    
+  }
 
-      setIssue(is)
-      console.log(getSupportItem(is))
-    }
-   
-      fetchMyAPI()
-
-  } , [])
-
-  */
- 
-
-
-  return (
-    <main>
-      </main>
-  )
+  const getComment = async () => {
+    const response = await fetch('/api/comments/'+ Issue.issueId  )
+    const data = await response.json()
+    setIssue(data.data)
+  
 }
+
+  useEffect(() => getIssue(), [])
+  return (
+   <main>
+    <SupportItem
+    item= {Issue} >
+
+    </SupportItem>
+    </main>
+  );
+
+}
+

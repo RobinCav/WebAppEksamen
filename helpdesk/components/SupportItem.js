@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 
 /* eslint-disable no-ternary */
@@ -8,14 +10,16 @@ const SupportItem = ({ item }) => {
   const severityLow = item?.severity === 1 ? 'Lav' : null
 
   const [issue, setIssue] = useState([])
+  const router = useRouter()
 
-  const getItem = async () => {
-    const response = await fetch('/api/issues/' + item.title)
-    const data = await response.json()
-    setIssue(data.data)
+  const goToSupportItem = async () => {
+
+
+    const url = '/issues/' + item.title
+    router.push(url)
+
 
   }
-  useEffect(() => getItem(), [])
 
   return (
     <li className="issue">
@@ -29,9 +33,9 @@ const SupportItem = ({ item }) => {
       <p>{item?.description}</p>
       <span>{item?.creator}</span>
       <footer>
-        <span>{item?.createdAt}</span>
+        <span>{item?.created_at}</span>
         <div className="issue_actions">
-          <button type="button" onClick = {}>Se kommentarer (2)</button>
+          <button type="button" onClick= {goToSupportItem}>Se kommentarer (2)</button>
           <button type="button">Legg til kommentar</button>
           <button type="button">Avslutt</button>
         </div>

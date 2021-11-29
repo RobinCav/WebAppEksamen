@@ -1,6 +1,26 @@
 import * as issuesService from './issues.service'
 
 
+export const listIssueComments = async (req, res) => {
+  // henter ut email fra urlen
+const { id } = req.query
+
+if (!id)
+  return res.status(400).json({
+    success: false,
+    error: 'Missing required fields: id',
+  })
+
+const comments = await issuesService.getIssueComments({ id })
+
+if (!comments?.success) {
+  return res.status(500).json({
+    success: false,
+    error: comments.error,
+  })
+
+}
+}
 
 export const listIssues = async (req, res) => {
   const issues = await issuesService.getToList()
