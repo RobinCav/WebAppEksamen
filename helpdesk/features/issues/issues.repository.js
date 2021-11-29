@@ -2,7 +2,11 @@ import prisma from '@/lib/clients/db'
 
 export const findMany = async () => {
   try {
-    const issues = await prisma.issue.findMany()
+    const issues = await prisma.issue.findMany(  {
+      include: {
+        department: true,
+    },
+  })
 
     return { success: true, data: issues }
   } catch (error) {
@@ -47,6 +51,10 @@ export const findUnique = async (identifier) => {
       where: {
        ...identifier,
       },
+      include: {
+        comments: true,
+        department: true,
+      },
     })
 
     return { success: true, data: issue }
@@ -65,20 +73,3 @@ export const removeById = async (id) => {
   }
 }
 
-
-export const findComments = async ({ id }) => {
-  try {
-    const issueWithComments = await prisma.issue.findMany({
-      where: {
-        id,
-      },
-      include: {
-        comments: true,
-      },
-    })
-
-    return { success: true, data: issueWithComments }
-  } catch (error) {
-    return { success: false, error: 'Failed finding issue with comments' }
-  }
-}

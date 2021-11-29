@@ -1,17 +1,6 @@
 import * as issuesRepo from './issues.repository'
 
 
-export const getIssueComments = async ({ id }) => {
- 
-
-  const issueWithComments = await usersRepo.findFeeds({ id })
-
-  if (userWithFeeds?.error)
-    return { success: false, error: userWithFeeds.error }
-
-  return { success: true, data: userWithFeeds.data }
-}
-
 export const getIssueById = async ({ title }) => {
   const issue = await issuesRepo.findUnique({ title })
 

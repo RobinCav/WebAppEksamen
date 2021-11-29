@@ -18,6 +18,12 @@ main {
     list-style: none;
   }
 }
+.comment{
+  input{
+    width: 75%;
+    height: 100px;
+  }
+}
 
 .issue {
   display: flex;

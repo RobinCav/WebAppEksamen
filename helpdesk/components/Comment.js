@@ -6,8 +6,6 @@ import { useRouter } from 'next/router'
 /* eslint-disable no-ternary */
 const Comment = ({ item }) => {
 
-
-
   return (
     <li className="issue">
    

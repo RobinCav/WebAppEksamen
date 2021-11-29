@@ -41,11 +41,14 @@ export const create = async ({title,description, creator, severity, departmentId
 
 
 
-export const findUnique = async (identifier) => {
+export const findUnique = async (issueId) => {
   try {
     const Comment = await prisma.comment.findMany({
       where: {
-       ...identifier,
+       ...issueId
+      },
+      include: {
+        issue: true, // Return all fields
       },
     })
 
