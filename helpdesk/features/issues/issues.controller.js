@@ -10,6 +10,39 @@ export const listIssues = async (req, res) => {
   return res.status(200).json(issues)
 }
 
+export const updateIssuebyTitle = async (req, res) => {
+  const { title } = req.query
+  const data = req.body
+
+  if (!title)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: title',
+    })
+
+    const issue = await issuesService.putByTitle(title, data)
+
+    if (!issue?.success) {
+      switch (issue?.type) {
+        case 'issue.NotExist':
+          return res.status(404).json({
+            success: false,
+            error: issue.error,
+          })
+        case 'issue.Duplicate':
+          return res.status(409).json({
+            success: false,
+            error: issue.error,
+          })
+        default:
+          return res.status(500).json({
+            success: false,
+            error: issue.error,
+          })
+      }
+  }
+}
+
 export const createIssue = async (req, res) => {
   const { title,description, creator, severity, departmentId} = req.body
 
