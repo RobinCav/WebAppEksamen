@@ -1,4 +1,5 @@
 import SupportItem from '@/components/SupportItem'
+import IssueWithComments from '@/components/IssueWithComments'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 
@@ -6,14 +7,10 @@ import { useState, useEffect } from 'react'
 
 
 
-const getSupportItem = async (title) => {
-  const response = await fetch('/api/issues/' + title)
-  const data = await response.json()
-  return data.data
-}
-
 export default function Home() {
   const [Issue, setIssue] = useState([])
+  const [comments, setComments] = useState([])
+
   const router = useRouter()
   const {title} = router.query
 
@@ -23,21 +20,25 @@ export default function Home() {
       setIssue(data.data)
     
   }
-
-  const getComment = async () => {
-    const response = await fetch('/api/comments/'+ Issue.issueId  )
+  
+  const getComments = async () => {
+    const response = await fetch('/api/issues/' + title )
     const data = await response.json()
-    setIssue(data.data)
+    setComments(data.data.comments)
   
 }
 
+ 
+
   useEffect(() => getIssue(), [])
+  useEffect(() => getComments(), [])
+
   return (
    <main>
-    <SupportItem
-    item= {Issue} >
+ 
+    <IssueWithComments item={Issue} comments={comments} >
 
-    </SupportItem>
+    </IssueWithComments>
     </main>
   );
 

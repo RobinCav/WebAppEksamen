@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 
 
@@ -14,12 +14,18 @@ export default function SupportForm () {
     description: '',
     creator: '',
     severity: 1,
-    department: null, 
+    department: '', 
     
   })
 
   const [departments, setDepartments] = useState([])
 
+  const router = useRouter()
+
+  const goBackToIssues = async () => {
+    const url = '/issues/'
+    router.push(url)
+  }
   
   
   const createIssue = () => async () => {
@@ -41,6 +47,7 @@ export default function SupportForm () {
           console.log(data)
           console.log("dep id: " + dep.id)
           const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
+          goBackToIssues()
 
 
         }
