@@ -14,7 +14,5 @@ export async function processGame( combination, user, tries, completion ) {
 
         const result = await gameRepository.saveEntry( combination_string, user, tries, completion );
 
-        console.log(result);
-
     }
 }
