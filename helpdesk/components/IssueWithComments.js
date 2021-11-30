@@ -1,5 +1,6 @@
 import Comment from './Comment'
 import { useState, useEffect } from 'react';
+import AddComment from './AddComment'
 
 
 
@@ -11,7 +12,14 @@ const IssueWithComments = ({ item,comments }) => {
   const severityLow = item?.severity === 1 ? 'Lav' : null
   
   
+  const [startComment, setStartComment]= useState(false)
 
+
+  const clickedComment = () => {
+    setStartComment(true)
+  }
+
+  
   return (
     <main>
       <li className="issue">
@@ -28,18 +36,22 @@ const IssueWithComments = ({ item,comments }) => {
         <footer>
           <span>{item?.created_at}</span>
           <div className="issue_actions">
-            <button type="button">Legg til kommentar</button>
+            <button type="button" onClick={clickedComment}>Legg til kommentar</button>
             <button type="button">Avslutt</button>
           </div>
         </footer>
       </li>
-
+      {startComment > 0 &&
+        <AddComment title={item.title} />
+      }
         <h2>Comments</h2>
         <ul>
           {comments?.map((c) => (
             <Comment  item={c} />
           ))}
         </ul>
+
+        
     </main>
   
 

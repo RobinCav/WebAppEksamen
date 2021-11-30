@@ -14,20 +14,17 @@ export const findMany = async () => {
 
 
 
-export const create = async ({title,description, creator, severity, departmentId}) => {
+export const create = async ({comment, issueId}) => {
   // bruker try/catch for å håndtere feil gitt av Prisma
   try {
     // bruker prisma clienten til å lage bruker
     // .create er metoden vi bruker for å lage noe
-    const Comment = await prisma.Comment.create({
+    const Comment = await prisma.comment.create({
       data:{
-        title,
-        description,
-         creator,
-          severity,
-           department: {
+        comment,
+           issue: {
              connect:{
-               id: departmentId
+               id: issueId
              }
            }
     }
@@ -60,7 +57,7 @@ export const findUnique = async (issueId) => {
 
 export const removeById = async (id) => {
   try {
-    const Comment = await prisma.Comment.delete({ where: { id } })
+    const Comment = await prisma.comment.delete({ where: { id } })
 
     return { success: true, data: Comment }
   } catch (error) {
