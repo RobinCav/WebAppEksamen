@@ -7,16 +7,16 @@ export default async function handler(req, res) {
 
   switch (method?.toLowerCase()) {
     case 'get':
-      await issuesController.getIssueById(req, res)
+      await issuesController.getIssueByTitle(req, res)
       break
     case 'delete':
-      await issuesController.removeIssueById(req, res)
+      await issuesController.removeIssueByTitle(req, res)
       break
-      /*
+      
     case 'put':
-      await issuesController.updateIssuebyId(req, res)
+      await issuesController.updateIssuebyTitle(req, res)
       break
-      */
+      
     default:
       res.status(405).end()
   }

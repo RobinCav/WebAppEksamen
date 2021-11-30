@@ -5,6 +5,7 @@ export const findMany = async () => {
     const issues = await prisma.issue.findMany(  {
       include: {
         department: true,
+        comments: true,
     },
   })
 

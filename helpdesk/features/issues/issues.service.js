@@ -15,7 +15,15 @@ export const getIssueById = async ({ title }) => {
   return { success: true, data: issue.data }
 }
 export const getToList = async () => {
-  const issues = await issuesRepo.findMany()
+  const issues = await issuesRepo.findMany(
+    {
+    include: {
+      comments: true,
+      department: true,
+    },
+  }
+    
+  )
 
   if (!issues.success) return { success: false, error: issues.error }
 

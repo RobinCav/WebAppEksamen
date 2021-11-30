@@ -14,7 +14,7 @@ export default function SupportForm () {
     description: '',
     creator: '',
     severity: 1,
-    department: '', 
+    department: 'it', 
     
   })
 
@@ -29,34 +29,31 @@ export default function SupportForm () {
   
   
   const createIssue = () => async () => {
-
-    try {
       console.log(form.department)
       for(let i=0; i < departments.length;i++){
         let dep = departments[i]
         if(dep.name == form.department){
-        
-          let data = JSON.stringify({
-                   
-            title: form.title, 
-            description: form.description,
-            creator: form.creator,
-            severity: parseInt(form.severity),
-            departmentId: dep.id
-          });
-          console.log(data)
-          console.log("dep id: " + dep.id)
-          const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
-          goBackToIssues()
-
-
+         
+            if(validateForm(form) ){
+              let data = JSON.stringify({
+                    
+                title: form.title, 
+                description: form.description,
+                creator: form.creator,
+                severity: parseInt(form.severity),
+                departmentId: dep.id
+              });
+              console.log(data)
+              console.log("dep id: " + dep.id)
+              const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
+              goBackToIssues()
+            }
+          
         }
 
       }
 
-    } catch (error) {
-      console.error(error.response.data);     
-    }
+    
     
 };
 
@@ -90,6 +87,7 @@ export default function SupportForm () {
           name="title"
           onChange={handleInputOnChange}
           value={form.title}
+          required
         />
       </div>
       <div>
@@ -100,6 +98,7 @@ export default function SupportForm () {
           name="creator"
           onChange={handleInputOnChange}
           value={form.creator}
+          required
         />
       </div>
       <div>
@@ -110,6 +109,7 @@ export default function SupportForm () {
           name="description"
           onChange={handleInputOnChange}
           value={form.description}
+          required
         />
       </div>
       <div>
@@ -139,4 +139,32 @@ export default function SupportForm () {
     </form>
   )
 }
+
+
+const validateForm = ( form ) => {
+  let name = form.creator.split(' ')
+
+  if(form.title === '' || form.description=== '' || form.creator === '' ){
+    alert('You need to fill the required fields....(title,description and creator)')
+    return false
+   
+  }else if(form.title.length <25 || form.title.length >150){
+        alert('The title needs to contain between 25-150 characters')
+        return false
+  }else if(form.description.length < 25 || form.description.length > 250 ){
+    alert('The description needs to contain between 25-250 characters')
+    return false
+  }else if(name.length <2 || firstCapLetter(name[0]) == false || firstCapLetter(name[1]) == false){
+      alert('Navnet må inneholde både fornavn og etternavn(Begge må starte med stor bokstav')
+      return false
+  }else{
+    return true
+      }
+    
+ 
+    }
+  
+
+
+const firstCapLetter = (n) =>  n[0] === n[0].toUpperCase();
 

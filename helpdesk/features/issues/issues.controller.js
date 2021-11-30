@@ -39,7 +39,7 @@ export const createIssue = async (req, res) => {
 }
 
 
-export const getIssueById = async (req, res) => {
+export const getIssueByTitle = async (req, res) => {
   const { title } = req.query
 
   if (!title)
@@ -71,7 +71,7 @@ export const getIssueById = async (req, res) => {
 }
 
 
-export const removeIssueById = async (req, res) => {
+export const removeIssueByTitle = async (req, res) => {
   const { id } = req.query
 
   if (!id)

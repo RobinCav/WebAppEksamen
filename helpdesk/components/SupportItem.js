@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AddComment from './AddComment'
+import axios from 'axios';
 
 
 /* eslint-disable no-ternary */
-const SupportItem = ({ item }) => {
+const SupportItem = ({ item, comments }) => {
   const severityHigh = item?.severity === 3 ? 'Høy' : null
   const severityMedium = item?.severity === 2 ? 'Medium' : null
   const severityLow = item?.severity === 1 ? 'Lav' : null
   const [startComment, setStartComment]= useState(false)
 
-  const [issue, setIssue] = useState([])
   const router = useRouter()
 
   const goToSupportItem = async () => {
@@ -21,7 +20,19 @@ const SupportItem = ({ item }) => {
   const clickedComment = () => {
     setStartComment(true)
   }
+  const solved = async () => {
+    let data = JSON.stringify({
+      isResolved: true,
+      title: item.title, 
+      description: item.description,
+      creator: item.creator,
+      severity: item.severity,
+      departmentId: item.departmentId
+    });
+    const result = axios.put("/api/issues/" + item.title,data,{headers:{"Content-Type" : "application/json"}});
 
+  }
+ 
   return (
     <li className="issue">
       <div className="meta">
@@ -36,9 +47,9 @@ const SupportItem = ({ item }) => {
       <footer>
         <span>{item?.created_at}</span>
         <div className="issue_actions">
-          <button type="button" onClick= {goToSupportItem}>Se kommentarer (2)</button>
+          <button type="button" onClick= {goToSupportItem}>Se kommentarer ({comments})</button>
           <button type="button" onClick={clickedComment}>Legg til kommentar</button>
-          <button type="button">Avslutt</button>
+          <button type="button" onClick={solved}>Avslutt</button>
         </div>
       </footer>
 

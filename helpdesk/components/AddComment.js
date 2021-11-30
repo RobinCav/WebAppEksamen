@@ -23,12 +23,14 @@ const AddComment = ({title}) => {
   useEffect(() => getIssue(), [])
 
   const handleChange= (event) =>{
-    setComment(event.target.value)
+      setComment(event.target.value)
+   
   }
   const createComment  = async () => {
     console.log(Issue.title)
     try {
-     
+        if(comment.length <250){
+
           let data = JSON.stringify({
                    
             comment: comment,
@@ -37,13 +39,13 @@ const AddComment = ({title}) => {
           console.log(data)
     
           const result = await axios.post("/api/comments",data,{headers:{"Content-Type" : "application/json"}});
-          window.location.reload();
+          
           const url = '/issues/'
           router.push(url)
-          
-
-
-      
+          window.location.reload();
+        }else{
+          alert("kommentaren bør være 250 bokstaver langt")
+        }
 
     } catch (error) {
       console.error(error.response.data);     
@@ -54,7 +56,7 @@ const AddComment = ({title}) => {
     <div>
         <ul className="comment">
         
-        <input type="text" value={comment} onChange={handleChange}  placeholder="Write a comment..." />
+        <input type="text" value={comment} onChange={handleChange}  placeholder="Write a comment..." required />
           
         <button type="button" onClick={createComment}>  OK </button>
           

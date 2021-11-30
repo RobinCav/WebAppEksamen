@@ -6,18 +6,10 @@ const SupportList = ({ issues }) => {
 
   const [departments, setDepartments] = useState([])
 
-  const [data, setData] = useState([]);
   const [sortType, setSortType] = useState('it');
   
-
-  const getDepartments = async () => {
-    const response = await fetch('/api/departments')
-    const data = await response.json()
-    setDepartments(data.data)
-  }
    
 
-  useEffect(() => getDepartments(), [])
 
 
   return (
@@ -36,7 +28,7 @@ const SupportList = ({ issues }) => {
       </section>
       <ul>
         {issues?.filter(issue => issue.department.name.includes(sortType)).map((issue) => (
-          <SupportItem key={issue.id} item={issue} />
+          <SupportItem key={issue.id} item={issue} comments={issue?.comments?.length} />
         ))}
       </ul>
     </section>
