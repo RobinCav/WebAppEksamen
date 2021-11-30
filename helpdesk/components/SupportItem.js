@@ -18,7 +18,7 @@ const SupportItem = ({ item }) => {
     const url = '/issues/' + item.title
     router.push(url)
   }
-  const test = () => {
+  const clickedComment = () => {
     setStartComment(true)
   }
 
@@ -37,13 +37,13 @@ const SupportItem = ({ item }) => {
         <span>{item?.created_at}</span>
         <div className="issue_actions">
           <button type="button" onClick= {goToSupportItem}>Se kommentarer (2)</button>
-          <button type="button" onClick={test}>Legg til kommentar</button>
+          <button type="button" onClick={clickedComment}>Legg til kommentar</button>
           <button type="button">Avslutt</button>
         </div>
       </footer>
 
       {startComment > 0 &&
-        <AddComment/>
+        <AddComment title={item.title} />
       }
     </li>
   )

@@ -11,16 +11,16 @@ export const listComments = async (req, res) => {
 }
 
 export const createComment = async (req, res) => {
-  const { title,description, creator, severity, departmentId} = req.body
+  const { comment,issueId} = req.body
 
   // 400 Bad Request hvis email mangler
-  if (  !title  )
+  if (  !comment  )
     return res
       .status(400)
       .json({ success: false, error: 'Missing required fields' })
 
   const createdComment = await CommentsService.create({ 
-    title,description, creator, severity, departmentId
+    comment, issueId
     })
 
   // 500 Internal Server Error hvis noe går galt
@@ -36,38 +36,6 @@ export const createComment = async (req, res) => {
     success: true,
     data: createdComment.data,
   })
-}
-
-
-export const getCommentsByIssueId = async (req, res) => {
-  const { issueId } = req.query
-
-  if (!issueId)
-    return res.status(400).json({
-      success: false,
-      error: 'Missing required fields: title, desc or sev',
-    })
-
-  const Comments = await CommentsService.getCommentsByIssueId({
-    issueId,
-  })
-
-  if (!Comments?.success) {
-    switch (Comments?.type) {
-      case 'Comment.NotExist':
-        return res.status(404).json({
-          success: false,
-          error: Comments.error,
-        })
-      default:
-        return res.status(500).json({
-          success: false,
-          error: Comments.error,
-        })
-    }
-  }
-
-  return res.status(200).json(Comments)
 }
 
 

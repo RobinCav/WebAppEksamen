@@ -21,9 +21,9 @@ export const getToList = async () => {
   return { success: true, data: Comments.data }
 }
 
-export const create = async ({ title,description, creator, severity, departmentId  }) => {
+export const create = async ({ comment, issueId  }) => {
 
-  const createdComment = await CommentsRepo.create({ title,description, creator, severity, departmentId })
+  const createdComment = await CommentsRepo.create({ comment, issueId })
 
   // feil ved lagring av bruker via ORM
   if (!createdComment.success) return { success: false, error: createdComment.error }
