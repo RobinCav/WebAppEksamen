@@ -23,13 +23,11 @@ const SupportItem = ({ item, comments }) => {
   const solved = async () => {
     let data = JSON.stringify({
       isResolved: true,
-      title: item.title, 
-      description: item.description,
-      creator: item.creator,
-      severity: item.severity,
-      departmentId: item.departmentId
     });
-    const result = axios.put("/api/issues/" + item.title,data,{headers:{"Content-Type" : "application/json"}});
+    const result =  await axios.put("/api/issues/" + item.title,data,{headers:{"Content-Type" : "application/json"}});
+    console.log(result)
+
+    window.location.reload();
 
   }
  

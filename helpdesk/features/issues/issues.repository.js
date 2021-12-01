@@ -17,6 +17,19 @@ export const findMany = async () => {
 }
 
 
+export const updateByTitle = async (title, { isResolved }) => {
+  try {
+    const issue = await prisma.issue.update({
+      where: { title },
+      data: { isResolved },
+    })
+
+    return { success: true, data: issue }
+  } catch (error) {
+    return { success: false, error: 'Failed updating issue' }
+  }
+}
+
 
 
 export const create = async ({title,description, creator, severity, departmentId}) => {

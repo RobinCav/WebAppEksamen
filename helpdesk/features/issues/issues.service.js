@@ -49,3 +49,30 @@ export const deleteById = async ({ id }) => {
 
   return { success: true, data: removedIssue.data }
 }
+
+export const putByTitle = async (title, data) => {
+ 
+
+  const updatedIssue = await issuesRepo.updateByTitle(title, data)
+
+  if (!updatedIssue.success) {
+    return { success: false, error: updatedIssue.error }
+  }
+
+  return { success: true, data: updatedIssue.data }
+}
+
+
+export const exist = async ({ title }) => {
+  try {
+    const user = await prisma.issue.findUnique({
+      where: {
+        title,
+      },
+    })
+
+    return { success: true, data: user }
+  } catch (error) {
+    return { success: false, error: 'Failed finding issue' }
+  }
+}

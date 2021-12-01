@@ -18,7 +18,7 @@ const SupportList = ({ issues }) => {
       <h2>Henvendelser</h2>
       <section>
         <div>
-        <p> sorter etter avdeling </p>
+        <p> vis etter avdeling </p>
           <select onChange={(e) => setSortType(e.target.value)}> 
             <option value="it">it</option>
             <option value="salg">salg</option>
