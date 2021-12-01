@@ -1,6 +1,7 @@
 import SupportForm from '@/components/SupportForm'
 import SupportList from '@/components/SupportList'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export default function Home() {
 
@@ -9,22 +10,19 @@ export default function Home() {
     <main className="home">
         <h1> WELCOME TO THE HELPDESK</h1>
         <section>
-          <button onClick={ ()=>{
-            const url = '/issues/'
-            router.push(url)
-          }
-              
-          }> Se henvendelser 
-          </button>
+          <Link href='/issues/'>
+              <button > 
+                Se henvendelser 
+              </button>
+          </Link>
 
-          <button onClick={ ()=>{
-            const url = '/issues/create'
-            router.push(url)
-          }
-              
-          }>
-             Lage henvendelse
-          </button>
+          <Link href='/issues/create'>
+              <button >
+                Lage henvendelse
+              </button>
+          </Link>
+
+         
 
         </section>
     </main>

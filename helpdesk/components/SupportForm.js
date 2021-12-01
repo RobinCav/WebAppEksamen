@@ -46,6 +46,7 @@ export default function SupportForm () {
               console.log(data)
               console.log("dep id: " + dep.id)
               const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
+              
               goBackToIssues()
             }
           
