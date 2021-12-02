@@ -6,7 +6,7 @@ const SupportList = ({ issues }) => {
 
   const [departments, setDepartments] = useState([])
 
-  const [sortType, setSortType] = useState('it');
+  const [sortType, setSortType] = useState('alle');
   
    
 
@@ -20,6 +20,7 @@ const SupportList = ({ issues }) => {
         <div>
         <p> vis etter avdeling </p>
           <select onChange={(e) => setSortType(e.target.value)}> 
+            <option value="alle">alle</option>
             <option value="it">it</option>
             <option value="salg">salg</option>
             <option value="design">design</option>
@@ -27,9 +28,14 @@ const SupportList = ({ issues }) => {
         </div>
       </section>
       <ul>
-        {issues?.filter(issue => issue.department.name.includes(sortType)).map((issue) => (
+        {sortType.includes('alle') ?        issues?.map((issue) => (
+          <SupportItem key={issue.id} item={issue} comments={issue?.comments?.length} />
+        ))
+        : 
+        issues?.filter(issue => issue.department.name.includes(sortType)).map((issue) => (
           <SupportItem key={issue.id} item={issue} comments={issue?.comments?.length} />
         ))}
+      
       </ul>
     </section>
   )

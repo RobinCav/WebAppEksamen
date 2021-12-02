@@ -7,13 +7,13 @@ import { useRouter } from 'next/router'
 const Comment = ({ item }) => {
 
   return (
-    <ul className="issue">
+    <div className="issue">
    
       <p>{item?.comment}</p>
       <footer>
         <span>{item?.created_at}</span>
       </footer>
-    </ul>
+    </div>
   )
 }
 

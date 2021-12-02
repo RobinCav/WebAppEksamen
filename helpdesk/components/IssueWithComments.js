@@ -22,7 +22,7 @@ const IssueWithComments = ({ item,comments }) => {
   
   return (
     <main>
-      <li className="issue">
+      <div className="issue">
       <h2>
           {item?.title} 
         </h2>
@@ -40,16 +40,16 @@ const IssueWithComments = ({ item,comments }) => {
             <button type="button">Avslutt</button>
           </div>
         </footer>
-      </li>
+      </div>
       {startComment > 0 &&
         <AddComment title={item.title} />
       }
         <h2>Comments</h2>
-        <ul>
+        <div>
           {comments?.map((c) => (
             <Comment  item={c} />
           ))}
-        </ul>
+        </div>
 
         
     </main>

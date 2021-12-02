@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router'
 
 
 
@@ -39,10 +40,9 @@ const AddComment = ({title}) => {
           console.log(data)
     
           const result = await axios.post("/api/comments",data,{headers:{"Content-Type" : "application/json"}});
-          
-          const url = '/issues/'
-          router.push(url)
-          window.location.reload();
+          router.reload(window.location.pathname)
+
+         
         }else{
           alert("kommentaren bør være 250 bokstaver langt")
         }
@@ -52,12 +52,14 @@ const AddComment = ({title}) => {
     }
     
   };
+
+  const url = '/issues/' + title
   return (
     <div>
         <ul className="comment">
         
         <input type="text" value={comment} onChange={handleChange}  placeholder="Write a comment..." required />
-          
+        
         <button type="button" onClick={createComment}>  OK </button>
           
       </ul>

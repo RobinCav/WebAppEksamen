@@ -10,12 +10,20 @@ import { useState, useEffect } from 'react'
 export default function Home() {
   const [Issue, setIssue] = useState([])
   const [comments, setComments] = useState([])
-  const [isLoading, setLoading] = useState(true);
-  const router = useRouter()
-  const {title} = router.query
-  
-  
-  const getIssue = async () => {
+  const [title, setTitle] = useState('')
+  const router = useRouter();
+ 
+  const query = getQuery();
+
+  useEffect( async () => {
+    if (!query) {
+      return;
+    }
+    await getIssue(query.title)
+  }, [query]);
+
+ 
+  const getIssue = async (title) => {
       const response = await fetch('/api/issues/' + title )
       const data = await response.json()
       setIssue(data.data)
@@ -27,7 +35,6 @@ export default function Home() {
 
  
 
-  useEffect(() => getIssue(), [])
   
 
     return (
@@ -43,3 +50,9 @@ export default function Home() {
 
 }
 
+function getQuery() {
+  const router = useRouter();
+  const ready = router.asPath !== router.route;
+  if (!ready) return null;
+  return router.query;
+}

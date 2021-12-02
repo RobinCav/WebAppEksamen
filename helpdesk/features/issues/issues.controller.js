@@ -1,3 +1,4 @@
+import validateCreatorName from '@/components/validateCreatorName'
 import * as issuesService from './issues.service'
 
 
@@ -46,11 +47,31 @@ export const updateIssuebyTitle = async (req, res) => {
 export const createIssue = async (req, res) => {
   const { title,description, creator, severity, departmentId} = req.body
 
-  // 400 Bad Request hvis email mangler
-  if (  !title  )
+  if (  !title || !description || !creator || !severity || !departmentId  )
     return res
       .status(400)
-      .json({ success: false, error: 'Missing required fields' })
+      .json({ success: false, error: 'Du må fille alle påkrevde felter....(title,description and creator osv..)' })
+  
+  
+  if(title.length <25 || title.length >150){
+    return res
+    .status(400)
+    .json({ success: false, error: 'Tittelen må inneholde 25-150 bokstaver' })
+  }
+  if(description.length < 25 || description.length > 250 ){
+    return res
+    .status(400)
+    .json({ success: false, error: 'Beskrivelsen må inneholde 25-250 bokstaver' })
+  }
+
+  let name = creator.split(' ')
+  if(!validateCreatorName(name)){
+    return res
+      .status(400)
+      .json({ success: false, error: 'Navnet må inneholde både fornavn og etternavn(Begge må starte med stor bokstav' })
+  
+  }
+
 
   const createdIssue = await issuesService.create({ 
     title,description, creator, severity, departmentId

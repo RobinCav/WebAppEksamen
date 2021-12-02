@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router'
+import validateForm from './validateForm'
 
 
 
@@ -53,8 +54,6 @@ export default function SupportForm () {
         }
 
       }
-
-    
     
 };
 
@@ -114,6 +113,7 @@ export default function SupportForm () {
         />
       </div>
       <div>
+        <label htmlFor="department">Department</label>
         <select 
          id="department"
          name="department"
@@ -124,16 +124,17 @@ export default function SupportForm () {
         ))}        </select>
       </div>
       <div>
+        <label htmlFor="severity">Severity</label>
         <select
         id="severity"
         name="severity"
         onChange={handleInputOnChange}
         value={form.severity}        onChange={handleInputOnChange}>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
+          <option value='1'>lav</option>
+          <option value='2'>middels</option>
+          <option value='3'>høy</option>
 
-          </select>
+        </select>
         
       </div>
       <button type="sumbit" onClick= {createIssue( )}>Send henvendelse</button>
@@ -141,31 +142,4 @@ export default function SupportForm () {
   )
 }
 
-
-const validateForm = ( form ) => {
-  let name = form.creator.split(' ')
-
-  if(form.title === '' || form.description=== '' || form.creator === '' ){
-    alert('You need to fill the required fields....(title,description and creator)')
-    return false
-   
-  }else if(form.title.length <25 || form.title.length >150){
-        alert('The title needs to contain between 25-150 characters')
-        return false
-  }else if(form.description.length < 25 || form.description.length > 250 ){
-    alert('The description needs to contain between 25-250 characters')
-    return false
-  }else if(name.length <2 || firstCapLetter(name[0]) == false || firstCapLetter(name[1]) == false){
-      alert('Navnet må inneholde både fornavn og etternavn(Begge må starte med stor bokstav')
-      return false
-  }else{
-    return true
-      }
-    
- 
-    }
-  
-
-
-const firstCapLetter = (n) =>  n[0] === n[0].toUpperCase();
 
