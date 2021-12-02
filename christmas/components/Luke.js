@@ -4,9 +4,8 @@ import axios from 'axios'
 
 const Luke = ({lukeData : {id, nr, text, open}}) => {
 
-  let today = new Date()
   let test = new Date(2020, 11, 13)
-  let testDag = test.getDate();
+  let testDag = today.getDate();
 
   const [flip, setFlip] = useState(false);
   const flipCard = () => {
