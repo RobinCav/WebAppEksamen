@@ -5,7 +5,7 @@ import axios from 'axios'
 const Luke = ({lukeData : {id, nr, text, open}}) => {
 
   let today = new Date()
-  let test = new Date(2020, 11, 12)
+  let test = new Date(2020, 11, 13)
   let testDag = test.getDate();
 
   const [flip, setFlip] = useState(false);
@@ -49,7 +49,8 @@ const Luke = ({lukeData : {id, nr, text, open}}) => {
     <div className={shake ? "shake" : "luke"}  style={{background : "#e2e2e2"}} onClick={shakeCard}>
 
       <div className="front" >
-        <p>Åpnes om {nr - testDag} dager</p>
+        <p className="nmbrClosed">{nr}</p>
+        <p className="openSoon">Åpnes om {nr - testDag} dager</p>
       </div>
     </div>
   )

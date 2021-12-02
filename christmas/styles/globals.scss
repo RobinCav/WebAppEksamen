@@ -81,6 +81,18 @@ body {
   font-size: 40px;
 }
 
+.luke .nmbrClosed {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 40px;
+  color: rgb(168, 168, 168);
+ 
+}
+
+.openSoon {
+  color: rgb(168, 168, 168);
+}
+
 .shake{
   animation: shake 1s infinite;
   display: flex;
@@ -90,6 +102,13 @@ body {
   border-radius: 20px;
   height: 200px;
   border: red solid 1px;
+
+  .nmbrClosed{
+    font-size: 40px;
+    color: inherit;
+    text-align: center;
+    color:rgb(168, 168, 168);
+  }
 }
 @keyframes shake {
 0%  { transform: translate(2px, 1px)   rotate(0deg); }
