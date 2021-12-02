@@ -133,20 +133,28 @@ const initialState = {
 
 
 const GameProvider = ({ children }) => {
+  
   const [state, dispatch] = React.useReducer(gameReducer, initialState)
+  
   React.useEffect(() => {
+
     const getCombination = async () => {
+      
       // TODO: Må kalle api for å hente rett kombinasjon ✔️
       const request = await fetch("http://localhost:3000/api/v1/combination");
       const combination = await request.json();
+      
       dispatch({
         type: 'set_combination',
         payload: { game: combination },
       })
     }
+
     getCombination()
   }, [])
+
   const value = { state, dispatch }
+
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>
 }
 

@@ -1,22 +1,40 @@
-
-import axios from 'axios';
-
-export async function saveEntry( combination, user, tries, completion ) {
-
-    axios.post('http://localhost:3000/api/v1/game', {
-        combination: combination,
-        user: user,
-        tries: tries,
-        completion: completion
+export async function saveGame( combination, user, tries, completion ) {
+    const request = await fetch( 'http://localhost:3000/api/v1/game', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            combination: combination,
+            user: user,
+            tries: tries,
+            completion: completion
+        })
     })
-    .then(function (response) {
-        if ( response.data.success == false ) {
-            return false;
-        }
-        return true;
+    const response = request.json()
+    if ( response.success )
+        return response
+    return false
+}
+
+export async function getUserFromApi() {
+    const request = await fetch("http://localhost:3000/api/v1/user");
+    const response = await request.json();
+    if ( response.success )
+        return response.user
+    return false
+}
+
+export async function getHintFromApi( state ) {
+    const request = await fetch('/api/v1/hint', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state)
     })
-    .catch(function (error) {
-        console.log(error);
-    });
-    
+    const response = await request.json();
+    if ( response.success )
+        return response.hints;
+    return false;
 }

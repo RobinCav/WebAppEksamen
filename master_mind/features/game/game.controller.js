@@ -1,18 +1,22 @@
 
 import * as gameRepository from '@/features/game/game.repository'
+import * as gameService from '@/features/game/game.service'
 
-export async function processGame( combination, user, tries, completion ) {
+export async function saveGame( combination, user, tries, completion ) {
 
     if ( (user.length>0) && (tries>0) && (completion==true || completion==false) ) {
 
         // Gjort array som inneholder fargekombinasjoner om til string
-        var combination_string = "";
-        for ( var i = 0; i < combination.length; i++ ) {
-            combination_string += combination[i] + " ";
-        }
-        combination_string = combination_string.trim();
-
-        const result = await gameRepository.saveEntry( combination_string, user, tries, completion );
+        const combination_string = gameService.combinationArrayToString( combination );
+        gameRepository.saveGame( combination_string, user, tries, completion );
 
     }
+}
+
+export async function getUser() {
+    return gameRepository.getUserFromApi();
+}
+
+export async function getHint(state) {
+    return gameRepository.getHintFromApi(state)
 }

@@ -19,10 +19,17 @@ export default async function game(req, res) {
         })
 
         if ( Object.keys(insertion).length == 5 ) {
-            res.status(200).json({ "success": true })
+
+            res.status(201).json({ success: true })
         } else {
-            res.status(405).json({ "success": false })
+            
+            res.status(400).json({ message: "Failed to insert into database", success: false })
         }
 
+    } else {
+
+        res.status(403).json({ message: "Forbidden request", success: false })
+    
     }
+
 }

@@ -4,19 +4,13 @@ import { getUserFromCookie } from '@/lib/utils/api'
 
 export default async function handler(req, res) {
 
-  const user = await getUserFromCookie(req)
+  if ( req.method == "GET" ) {
 
-  if ( user && req.method == "GET" ) {
-
-    res.status(200).json({ user: user })
-
+    const user = await getUserFromCookie(req)
+    res.status(200).json({ user: user, success: true })
   } else {
 
-    const response = {
-      message: "Failed to get user data"
-    };
-
-    res.status(400).json(response)
+    res.status(403).json({ message: "Forbidden request", success: false })
   }
 
 }

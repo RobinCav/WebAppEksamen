@@ -15,9 +15,8 @@ const Rows = () => {
 
   // Henter hvilke bruker som spiller
   useEffect( async () => {
-    const request = await fetch("http://localhost:3000/api/v1/user");
-    const response = await request.json();
-    setUser(response.user);
+    const userfromapi = await gameController.getUser()
+    setUser(userfromapi);
   },[])
 
   const isCurrentRow = useCallback(
@@ -26,48 +25,33 @@ const Rows = () => {
     },
     [state.currentRow]
   )
- 
-  // Funksjon for å hente hint gjennom API
-  const generateHints = async () => {
-    const response = await fetch('/api/v1/hint', {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(state)
-    })
-    return await response.json()
-  }
 
   const handleRowSubmit = async (event) => {
     event.preventDefault();
 
-    // Henter hint ved row submit
-    const hints = await generateHints()
+    // Henter hint ved row submit via gameController
+    const hints = await gameController.getHint(state);
     const tries = state.currentRow + 1;
 
-    //console.log( state.game.combination );
+    console.log( state.game.combination );
     dispatch({ type: 'set_hints', payload: { hints } });
 
     // Hvis det er 4 riktig position hint, så betyr det at spillet er løst
     if ( hints?.positions === 4 ) {
 
       // Lagrer antall forsøk brukeren brukte for å løse spillet
-      gameController.processGame( state.game.combination, user, tries, true );
+      gameController.saveGame( state.game.combination, user, tries, true );
       dispatch({ type: 'set_complete' });
-
-    } 
+    }
     else {
 
       // Hvis brukeren har gjort 10 forsøk, så er det ikke flere forsøk
-      // Lagrer at brukeren ikke klarte å løse spillet
-      if ( tries == 10 ) {
-        gameController.processGame( state.game.combination, user, tries, false );
-      }
+      if ( tries == 10 )
+        // Lagrer at brukeren ikke klarte å løse spillet
+        gameController.saveGame( state.game.combination, user, tries, false );
+      
       dispatch({ type: 'increase_row' });
-
     }
-
   }
 
   const handleCellClick = (event) => {
