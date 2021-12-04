@@ -27,6 +27,7 @@ const SupportList = ({ issues }) => {
           </select>
         </div>
       </section>
+
       <ul>
         {sortType.includes('alle') ?        issues?.map((issue) => (
           <SupportItem key={issue.id} item={issue} comments={issue?.comments?.length} />
