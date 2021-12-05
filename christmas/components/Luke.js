@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import React from 'react';
 import axios from 'axios'
 
-const Luke = ({lukeData : {id, nr, text, open}}) => {
+const Luke = ({lukeData : {id,slug,order, openAt}, coupons}) => {
 
   let today = new Date()
   let testDag = today.getDate();
 
   const [flip, setFlip] = useState(false);
   const flipCard = () => {
-    if (nr <= testDag)
+    if (order <= testDag)
     setFlip(true)
   }
 
@@ -24,19 +24,20 @@ const Luke = ({lukeData : {id, nr, text, open}}) => {
 
   open = flip;
 
+
   // Bestemmer om det skal lages en luke som kan åpnes, eller ikke
-  if (nr <= testDag){
+  if (order <= testDag){
 
     // Denne luken kan åpnes
     return (
       <div className={`luke ${flip ? 'flip' : ''}` } onClick={flipCard}>
   
         <div className="front" >
-          <p className="nmbr">{nr}</p>
+          <p className="nmbr">{order}</p>
         </div>
   
         <div className="back">
-           <p>{text}</p>
+           <p>{coupons[order]}</p>
         </div>
   
       </div>
@@ -48,8 +49,8 @@ const Luke = ({lukeData : {id, nr, text, open}}) => {
     <div className={shake ? "shake" : "luke"}  style={{background : "#e2e2e2"}} onClick={shakeCard}>
 
       <div className="front" >
-        <p className="nmbrClosed">{nr}</p>
-        <p className="openSoon">Åpnes om {nr - testDag} dager</p>
+        <p className="nmbrClosed">{order}</p>
+        <p className="openSoon">Åpnes om {order - testDag} dager</p>
       </div>
     </div>
   )

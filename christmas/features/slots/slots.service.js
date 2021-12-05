@@ -4,6 +4,7 @@ import * as slotRepo from './slots.repository'
 export const getSlotBySlug = async ({ slug }) => {
   const slot = await slotRepo.findUnique({ slug })
 
+  
   if (!slot.success) return { success: false, error: slot.error }
   if (!slot.data)
     return {

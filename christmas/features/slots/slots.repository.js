@@ -9,6 +9,7 @@ export const findMany = async () => {
     let today = date.getDate();
     const slots = await prisma.slot.findMany(  {
       where: {
+        
           order:{
             lte:today,
           }
@@ -71,9 +72,12 @@ export const create = async ({slug, order,openAt, calenderId}) => {
 
 export const findUnique = async (slug) => {
   try {
+    let date = new Date()
+    let today = date.getDate();
+    
     const slot = await prisma.slot.findUnique({
       where: {
-       ...slug,
+         ...slug
       },
       include: {
         userSlots: true,

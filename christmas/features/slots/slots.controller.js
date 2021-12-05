@@ -83,11 +83,24 @@ export const getSlotBySlug = async (req, res) => {
       error: 'Missing required fields: slug',
     })
   
-
+  
 
   const Slot = await SlotsService.getSlotBySlug({
     slug,
   })
+
+  let date = new Date()
+  let today = date.getDate();
+
+  if(Slot?.openAt > today )
+    return res.status(400).json({
+      success: false,
+      type: 'slot.CantBeOpenedYet',
+      error: `This slot cant be opened yet.....`,
+    })
+    
+  
+  
 
   if (!Slot?.success) {
     switch (Slot?.type) {
