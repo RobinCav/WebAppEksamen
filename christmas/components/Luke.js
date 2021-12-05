@@ -1,16 +1,67 @@
 import { useEffect, useState } from "react";
 import React from 'react';
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
-const Luke = ({lukeData : {id,slug,order, openAt}, coupons}) => {
+
+const Luke = ({lukeData : {id,slug,order, openAt}}) => {
+
+  const query = getQuery();
+  const [username, setUserName] = useState('')
+  const[user, setUser] = useState([])
+
+  useEffect( async () => {
+    if (!query) {
+      return;
+    }
+    setUserName(query.username)
+  }, [query]);
+
+
+  const getUser = async () => {
+    const response = await fetch('/api/users/' + username )
+    const data = await response.json()
+    setUser(data.data)
+  
+}
+
+  const getRandomString = () => {
+    const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const randomNumb = '0123456789';
+    let result = '';
+    for ( let i = 0; i < 4; i++ ) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    for ( let i = 0; i < 4; i++ ) {
+      result += randomNumb.charAt(Math.floor(Math.random() * randomNumb.length));
+  }
+    return result
+  }
+
+  const saveCoupon = async () =>{
+    let data = JSON.stringify({
+                   
+      coupon: coupon,
+      slotId: 1,
+      userId: user.userId
+    });
+    console.log(data)
+    const result = await axios.post("/api/userslots/",data,{headers:{"Content-Type" : "application/json"}});
+    router.reload() 
+  }
 
   let today = new Date()
   let testDag = today.getDate();
+  const[coupon, setCoupon] = useState('')
+
 
   const [flip, setFlip] = useState(false);
-  const flipCard = () => {
+  const flipCard = async () => {
     if (order <= testDag)
-    setFlip(true)
+      setFlip(true)
+      setCoupon(getRandomString())
+      await saveCoupon()
+
   }
 
   const [shake, setShake] = useState(false);
@@ -37,7 +88,7 @@ const Luke = ({lukeData : {id,slug,order, openAt}, coupons}) => {
         </div>
   
         <div className="back">
-           <p>{coupons[order]}</p>
+           <p>{coupon}</p>
         </div>
   
       </div>
@@ -56,5 +107,11 @@ const Luke = ({lukeData : {id,slug,order, openAt}, coupons}) => {
   )
 }
 
+function getQuery() {
+  const router = useRouter();
+  const ready = router.asPath !== router.route;
+  if (!ready) return null;
+  return router.query;
+}
 
 export default Luke;

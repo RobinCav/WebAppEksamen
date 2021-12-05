@@ -3,18 +3,7 @@ import { useState, useEffect } from "react";
 import Luke from "./Luke";
 
 
-export const getRandomString = () => {
-  const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const randomNumb = '0123456789';
-  let result = '';
-  for ( let i = 0; i < 4; i++ ) {
-      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-  }
-  for ( let i = 0; i < 4; i++ ) {
-    result += randomNumb.charAt(Math.floor(Math.random() * randomNumb.length));
-}
-  return result
-}
+
 
 
 export const luker = [
@@ -170,17 +159,24 @@ export const luker = [
 
 
 
-const Luker = () =>{ 
+const Luker = ({username}) =>{ 
+  const[user, setUser] = useState([])
   const[slots, setSlots] = useState([])
+  const[userslots, setUserslots] = useState([])
+
   let slotsCouponArr = []
-
-  const getSlots = async () =>{
-    const response = await fetch('/api/slots')
+  const getUser = async () =>{
+    const response = await fetch('/api/users/' + username)
     const data = await response.json()
-    setSlots(data.data)
+    setUser(data?.data)
+    setUserslots(user?.userSlots)
   }
-  useEffect(() => getSlots(), [])
+  useEffect(() => getUser(), [])
 
+  console.log(user)
+  console.log(userslots)
+
+  /*
   const connectWithApi = () =>{
     for (let i = 0; i < slots.length; i++){
       luker[i] = slots[i]
@@ -189,9 +185,11 @@ const Luker = () =>{
       slotsCouponArr.push( getRandomString())
     }
   }
+  */
+
 
   
-  connectWithApi()
+  // connectWithApi()
   
   return (
     <div className="luke-grid">

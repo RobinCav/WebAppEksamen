@@ -29,7 +29,9 @@ const User = () => {
       const { id, username } = selectedUser
 
       setSelectedUser(JSON.stringify({ id, username }))
-      router.reload()
+
+
+      router.push('/users/' + username)
     }
   }
 

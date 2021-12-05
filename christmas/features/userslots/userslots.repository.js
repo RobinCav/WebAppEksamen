@@ -3,7 +3,7 @@ import prisma from '@/lib/clients/db'
 
 export const findMany = async () => {
   try {
-    const userslots = await prisma.userslot.findMany( )
+    const userslots = await prisma.UserSlot.findMany()
 
     return { success: true, data: userslots }
   } catch (error) {
