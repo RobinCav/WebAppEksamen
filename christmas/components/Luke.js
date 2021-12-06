@@ -2,64 +2,68 @@ import { useEffect, useState } from "react";
 import React from 'react';
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { getRandomString } from "./getRandomString";
 
 
-const Luke = ({lukeData : {id,slug,order, openAt}}) => {
 
-  const query = getQuery();
-  const [username, setUserName] = useState('')
+const Luke = ({lukeData : {id,slug,order, openAt}, username}) => {
+
+  
+
+
   const[user, setUser] = useState([])
+  const[slot, setSlot] = useState([])
+  let userSlot = null
+  let today = new Date()
+  let testDag = today.getDate();
+  const[coupon, setCoupon] = useState('')
 
-  useEffect( async () => {
-    if (!query) {
-      return;
-    }
-    setUserName(query.username)
-  }, [query]);
-
-
+  
+  
   const getUser = async () => {
     const response = await fetch('/api/users/' + username )
     const data = await response.json()
-    setUser(data.data)
-  
-}
+    setUser(data?.data)
 
-  const getRandomString = () => {
-    const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    const randomNumb = '0123456789';
-    let result = '';
-    for ( let i = 0; i < 4; i++ ) {
-        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-    }
-    for ( let i = 0; i < 4; i++ ) {
-      result += randomNumb.charAt(Math.floor(Math.random() * randomNumb.length));
   }
-    return result
+  const getSlot = async () => {
+    const secResponse = await fetch('/api/slots/' + slug )
+    const slotData = await secResponse.json()
+    setSlot(slotData?.data)
   }
+  useEffect(() => getUser(), [])
+  useEffect(() => getSlot(), [])
+
+
+  useEffect(() => {
+    setCoupon(getRandomString())
+  }, [])
+
+
+ 
+
+  
+  
 
   const saveCoupon = async () =>{
     let data = JSON.stringify({
                    
       coupon: coupon,
-      slotId: 1,
-      userId: user.userId
+      slotId: slot?.id,
+      userId: user?.id
     });
     console.log(data)
-    const result = await axios.post("/api/userslots/",data,{headers:{"Content-Type" : "application/json"}});
-    router.reload() 
+    const result = await axios.post("/api/userslots",data,{headers:{"Content-Type" : "application/json"}});
+    //router.reload() 
   }
 
-  let today = new Date()
-  let testDag = today.getDate();
-  const[coupon, setCoupon] = useState('')
+
 
 
   const [flip, setFlip] = useState(false);
   const flipCard = async () => {
     if (order <= testDag)
       setFlip(true)
-      setCoupon(getRandomString())
       await saveCoupon()
 
   }
@@ -76,8 +80,20 @@ const Luke = ({lukeData : {id,slug,order, openAt}}) => {
   open = flip;
 
 
+  const isSlotAlreadyOpened =  () =>{
+    let firstUserSlot =  user?.userSlots
+    userSlot = firstUserSlot?.filter(userslot => userslot.slotId == slot.id)
+    if(!userSlot?.length){
+      return false
+    }else{
+      return true
+    }
+}
+
   // Bestemmer om det skal lages en luke som kan åpnes, eller ikke
-  if (order <= testDag){
+  if (order <= testDag && !isSlotAlreadyOpened()  ){
+    
+ 
 
     // Denne luken kan åpnes
     return (
@@ -95,6 +111,18 @@ const Luke = ({lukeData : {id,slug,order, openAt}}) => {
     )
   }
 
+
+  if(isSlotAlreadyOpened()){
+    
+    return (
+      <div className='luke flip' onClick={flipCard}>
+
+        <div className="back">
+            <p  >{userSlot[0].coupon}</p>
+        </div>
+      </div>
+    )
+  }
   //Denne luken kan ikke åpnes
   return (
     <div className={shake ? "shake" : "luke"}  style={{background : "#e2e2e2"}} onClick={shakeCard}>

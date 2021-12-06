@@ -9,10 +9,11 @@ export const findMany = async () => {
     let today = date.getDate();
     const slots = await prisma.slot.findMany(  {
       where: {
-        
+          /*
           order:{
             lte:today,
           }
+          */
           
       },
       include: {

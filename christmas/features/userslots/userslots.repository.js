@@ -3,7 +3,7 @@ import prisma from '@/lib/clients/db'
 
 export const findMany = async () => {
   try {
-    const userslots = await prisma.UserSlot.findMany()
+    const userslots = await prisma.userslot.findMany()
 
     return { success: true, data: userslots }
   } catch (error) {
@@ -34,7 +34,7 @@ export const create = async ({coupon, slotId, userId}) => {
   try {
     // bruker prisma clienten til å lage bruker
     // .create er metoden vi bruker for å lage noe
-    const slot = await prisma.slot.create({
+    const slot = await prisma.userslot.create({
       data:{
          coupon,
          slot:{

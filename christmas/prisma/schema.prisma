@@ -14,7 +14,7 @@ model User {
   id Int @id @default(autoincrement())
   username String @unique
   createdAt DateTime @default(now())
-  userSlots UserSlot[]
+  userSlots Userslot[]
 }
 
 model Calender {
@@ -32,10 +32,10 @@ model Slot {
   openAt DateTime
   calender Calender @relation(fields: [calenderId], references: [id])
   calenderId Int
-  userSlots UserSlot[]
+  userSlots Userslot[]
 }
 
-model UserSlot {
+model Userslot {
   id Int @id @default(autoincrement())
   coupon String
   createdAt DateTime @default(now())

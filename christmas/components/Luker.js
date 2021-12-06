@@ -1,11 +1,11 @@
 
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Luke from "./Luke";
 
 
 
-
-
+/*
 export const luker = [
   {
     id: "hatch-1",
@@ -156,48 +156,30 @@ export const luker = [
 
 
 
-
+*/
 
 
 const Luker = ({username}) =>{ 
-  const[user, setUser] = useState([])
   const[slots, setSlots] = useState([])
-  const[userslots, setUserslots] = useState([])
 
-  let slotsCouponArr = []
-  const getUser = async () =>{
-    const response = await fetch('/api/users/' + username)
+  const router = useRouter();
+
+  const getSlots = async () =>{
+    const response = await fetch('/api/slots')
     const data = await response.json()
-    setUser(data?.data)
-    setUserslots(user?.userSlots)
+    setSlots(data.data)
+
   }
-  useEffect(() => getUser(), [])
-
-  console.log(user)
-  console.log(userslots)
-
-  /*
-  const connectWithApi = () =>{
-    for (let i = 0; i < slots.length; i++){
-      luker[i] = slots[i]
-    }
-    for (let i = 0; i <= slots.length; i++){
-      slotsCouponArr.push( getRandomString())
-    }
-  }
-  */
+  useEffect(() => getSlots(), [])
 
 
-  
-  // connectWithApi()
-  
   return (
     <div className="luke-grid">
-    {luker.map(luke =>
+    {slots.map(luke =>
       <Luke
       key={luke.id} 
       lukeData = {luke}
-      coupons = {slotsCouponArr}
+      username={username}
       />)}
       </div>
     )
