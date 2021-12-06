@@ -159,10 +159,9 @@ export const luker = [
 */
 
 
-const Luker = ({username}) =>{ 
+const Luker = ({user}) =>{ 
   const[slots, setSlots] = useState([])
 
-  const router = useRouter();
 
   const getSlots = async () =>{
     const response = await fetch('/api/slots')
@@ -179,7 +178,7 @@ const Luker = ({username}) =>{
       <Luke
       key={luke.id} 
       lukeData = {luke}
-      username={username}
+      user={user}
       />)}
       </div>
     )

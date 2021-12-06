@@ -6,12 +6,11 @@ import { getRandomString } from "./getRandomString";
 
 
 
-const Luke = ({lukeData : {id,slug,order, openAt}, username}) => {
+const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
 
   
+  console.log(user)
 
-
-  const[user, setUser] = useState([])
   const[slot, setSlot] = useState([])
   let userSlot = null
   let today = new Date()
@@ -19,19 +18,12 @@ const Luke = ({lukeData : {id,slug,order, openAt}, username}) => {
   const[coupon, setCoupon] = useState('')
 
   
-  
-  const getUser = async () => {
-    const response = await fetch('/api/users/' + username )
-    const data = await response.json()
-    setUser(data?.data)
-
-  }
+ 
   const getSlot = async () => {
     const secResponse = await fetch('/api/slots/' + slug )
     const slotData = await secResponse.json()
     setSlot(slotData?.data)
   }
-  useEffect(() => getUser(), [])
   useEffect(() => getSlot(), [])
 
 
@@ -135,11 +127,5 @@ const Luke = ({lukeData : {id,slug,order, openAt}, username}) => {
   )
 }
 
-function getQuery() {
-  const router = useRouter();
-  const ready = router.asPath !== router.route;
-  if (!ready) return null;
-  return router.query;
-}
 
 export default Luke;
