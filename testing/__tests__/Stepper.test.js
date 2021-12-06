@@ -20,15 +20,15 @@ describe('Stepper component', () => {
   
   it('should update step-count and button content on click', async () => {
     render(<Stepper/>)
-    fireEvent.click(screen.getByRole('button'))
-    await waitFor(() => expect( screen.getByRole('button') ).toHaveTextContent("End") )
+    const button = screen.getByRole("button")
+    fireEvent.click(button)
+    await waitFor(() => expect( button ).toHaveTextContent("End") )
   })
   
   it('should remove button when step count is higher than amount of steps', async () => {
     render(<Stepper/>)
     const button = screen.getByRole("button")
     fireEvent.click(button)
-    await waitFor(() => expect(button).toHaveTextContent("End") )
     fireEvent.click(button)
     await waitFor(() => expect(button).not.toBeInTheDocument() )
   })

@@ -2,7 +2,6 @@
 import * as React from 'react'
 
 import { createRows } from '@/lib/utils'
-import { response } from 'msw'
 
 
 const GameContext = React.createContext()
