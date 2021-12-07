@@ -8,17 +8,29 @@ import { getRandomString } from "./getRandomString";
 
 const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
 
+  const isSlotAlreadyOpened =  () =>{
+    let firstUserSlot =  user?.userSlots
+    userSlot = firstUserSlot?.filter(userslot => userslot.slotId == slot.id)
+    if(!userSlot?.length){
+      console.log("not opened  ")
+      return false
+    }else{
+      console.log(" opened  " + userSlot.id)
+      return true
+    }
+}
+
   
-  console.log(user)
 
   const[slot, setSlot] = useState([])
   let userSlot = null
   let today = new Date()
   let testDag = today.getDate();
   const[coupon, setCoupon] = useState('')
+  const router = useRouter()
 
   
- 
+
   const getSlot = async () => {
     const secResponse = await fetch('/api/slots/' + slug )
     const slotData = await secResponse.json()
@@ -33,25 +45,28 @@ const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
   
 
   const saveCoupon = async () =>{
-    let data = JSON.stringify({
+    if(!isSlotAlreadyOpened()){
+
+      let data = JSON.stringify({
                    
-      coupon: coupon,
-      slotId: slot?.id,
-      userId: user?.id
-    });
-    const result = await axios.post("/api/userslots",data,{headers:{"Content-Type" : "application/json"}});
-    //router.reload() 
+        coupon: coupon,
+        slotId: slot?.id,
+        userId: user?.id
+      });
+      const result = await axios.post("/api/userslots",data,{headers:{"Content-Type" : "application/json"}});
+
+      console.log("sssss")
+
+    }
+    
   }
-
-
 
 
   const [flip, setFlip] = useState(false);
   const flipCard = async () => {
-    if (order <= testDag)
+    if (order <= testDag )
       setFlip(true)
       await saveCoupon()
-
   }
 
   const [shake, setShake] = useState(false);
@@ -66,24 +81,12 @@ const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
   open = flip;
 
 
-  const isSlotAlreadyOpened =  () =>{
-    let firstUserSlot =  user?.userSlots
-    userSlot = firstUserSlot?.filter(userslot => userslot.slotId == slot.id)
-    if(!userSlot?.length){
-      return false
-    }else{
-      return true
-    }
-}
-
   // Bestemmer om det skal lages en luke som kan åpnes, eller ikke
   if (order <= testDag && !isSlotAlreadyOpened()  ){
-    
- 
 
     // Denne luken kan åpnes
     return (
-      <div className={`luke ${flip ? 'flip' : ''}` } onClick={flipCard}>
+      <div className={`luke ${flip ? 'flip' : ''}` } onClick={!isSlotAlreadyOpened() ? flipCard : null}>
   
         <div className="front" >
           <p className="nmbr">{order}</p>
