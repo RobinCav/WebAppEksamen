@@ -5,7 +5,7 @@ const AdminButton = () => {
 
   return (
    <button>
-     <Link href="/api/calenders">
+     <Link href="/adminPage">
       <a>Go to admin page</a>
      </Link>
    </button>

@@ -30,11 +30,6 @@ const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
   useEffect(() => {
     setCoupon(getRandomString())
   }, [])
-
-
- 
-
-  
   
 
   const saveCoupon = async () =>{
@@ -44,7 +39,6 @@ const Luke = ({lukeData : {id,slug,order, openAt}, user}) => {
       slotId: slot?.id,
       userId: user?.id
     });
-    console.log(data)
     const result = await axios.post("/api/userslots",data,{headers:{"Content-Type" : "application/json"}});
     //router.reload() 
   }
