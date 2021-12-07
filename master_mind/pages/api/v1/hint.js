@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     if ( req.method == 'POST' ) {
 
         const state = req.body
-
         const hints = await gameService.generateHint( state );
 
         if ( hints != false ) {

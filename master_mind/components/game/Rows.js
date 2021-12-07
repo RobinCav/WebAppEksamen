@@ -13,10 +13,12 @@ const Rows = () => {
   const { state, dispatch } = useGameContext()
   const [ user, setUser ] = useState(0)
 
-  // Henter hvilke bruker som spiller
+  // Henter hvilke bruker som spiller via api
   useEffect( async () => {
     const request = await fetch("http://localhost:3000/api/v1/user");
     const response = await request.json();
+    if ( response.status != 200 )
+      console.log("Something went very wrong");
     setUser(response.user);
   },[])
 
@@ -39,6 +41,10 @@ const Rows = () => {
       body: JSON.stringify(state)
     })
     const response = await request.json();
+
+    if ( response.status != 200 )
+      console.log("Something went very wrong");
+
     const hints = response.hints
     const tries = state.currentRow + 1;
 
@@ -55,8 +61,8 @@ const Rows = () => {
     else {
 
       // Hvis brukeren har gjort 10 forsøk, så er det ikke flere forsøk
+      // Lagrer at brukeren ikke klarte å løse spillet
       if ( tries == 10 )
-        // Lagrer at brukeren ikke klarte å løse spillet
         gameController.saveGame( state.game.combination, user, tries, false );
       
       dispatch({ type: 'increase_row' });
