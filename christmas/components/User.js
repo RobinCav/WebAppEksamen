@@ -26,9 +26,10 @@ const User = () => {
     )
 
     if (selectedUser) {
-      const { id, username } = selectedUser
+      const { id, username,userSlots } = selectedUser
 
-      setSelectedUser(JSON.stringify({ id, username }))
+      setSelectedUser(JSON.stringify({ id, username,userSlots }))
+      //router.push('/users/' + username)
       router.reload()
     }
   }
