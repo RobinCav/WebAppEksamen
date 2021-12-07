@@ -17,14 +17,6 @@ export async function saveGame( combination, user, tries, completion ) {
     return false
 }
 
-export async function getUserFromApi() {
-    const request = await fetch("http://localhost:3000/api/v1/user");
-    const response = await request.json();
-    if ( response.success )
-        return response.user
-    return false
-}
-
 export async function getHintFromApi( state ) {
     const request = await fetch('/api/v1/hint', {
         method: 'POST', 

@@ -8,9 +8,11 @@ export default async function handler(req, res) {
 
     const user = await getUserFromCookie(req)
     res.status(200).json({ user: user, success: true })
+
   } else {
 
     res.status(403).json({ message: "Forbidden request", success: false })
+    
   }
 
 }

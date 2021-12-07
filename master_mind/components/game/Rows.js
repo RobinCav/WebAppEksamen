@@ -15,8 +15,9 @@ const Rows = () => {
 
   // Henter hvilke bruker som spiller
   useEffect( async () => {
-    const userfromapi = await gameController.getUser()
-    setUser(userfromapi);
+    const request = await fetch("http://localhost:3000/api/v1/user");
+    const response = await request.json();
+    setUser(response.user);
   },[])
 
   const isCurrentRow = useCallback(

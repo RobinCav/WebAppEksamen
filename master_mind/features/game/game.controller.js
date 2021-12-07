@@ -13,10 +13,6 @@ export async function saveGame( combination, user, tries, completion ) {
     }
 }
 
-export async function getUser() {
-    return gameRepository.getUserFromApi()
-}
-
 export async function getHint(state) {
     return gameRepository.getHintFromApi(state)
 }
