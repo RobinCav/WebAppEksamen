@@ -1,26 +1,11 @@
 /* eslint-disable no-param-reassign */
 import * as React from 'react'
-
 import { createRows } from '@/lib/utils'
-
+import getColors from "@/lib/shared/colorlist";
 
 const GameContext = React.createContext()
-
-
-const colors = [
-  'red',
-  'green',
-  'blue',
-  'yellow',
-  'orange',
-  'pink',
-  'cyan',
-  'gray',
-]
-
-
+const colors = getColors()
 const rows = createRows(10)
-
 
 const getRemainingColors = (selectedColors, currentColor) => {
   const availableColors = colors.filter((color) => color !== currentColor)

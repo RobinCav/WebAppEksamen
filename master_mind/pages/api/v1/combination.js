@@ -1,18 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import getColors from "@/lib/shared/colorlist";
+
 export default async function handler(req, res) {
 
   if ( req.method == "GET" ) {
 
-    var colorList = [
-      'red',
-      'green',
-      'blue',
-      'yellow',
-      'orange',
-      'pink',
-      'cyan',
-      'gray',
-    ]
+    var colorList = getColors()
 
     // Lager en array med 4 unike farger
     const colors = [];
