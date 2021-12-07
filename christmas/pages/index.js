@@ -16,6 +16,7 @@ export default function Home() {
   return (
     <div>
       <h1>Julekalender eksamen 2021</h1>
+      <h1> velkommen {user?.username}</h1>
       {isMounted ? (
         <>
           <Luker user={user}/>
