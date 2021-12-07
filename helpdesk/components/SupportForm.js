@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router'
 import validateForm from './validateForm'
+import { getDepartments } from '@/hooks/useDepartments';
 
 
 
@@ -20,6 +21,7 @@ export default function SupportForm () {
   })
 
   const [departments, setDepartments] = useState([])
+  useEffect(() => setDepartments(getDepartments()), [])
 
   const router = useRouter()
 
@@ -56,15 +58,6 @@ export default function SupportForm () {
       }
     
 };
-
-
-  const getDepartments = async () => {
-    const response = await fetch('/api/departments')
-    const data = await response.json()
-    setDepartments(data.data)
-
-  }
-  useEffect(() => getDepartments(), [])
 
 
  

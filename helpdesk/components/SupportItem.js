@@ -32,10 +32,11 @@ const SupportItem = ({ item, comments }) => {
   }
  
   return (
-    <li className="issue">
+    <div>
+      <li className="issue">
       <div className="meta">
       <span>{item?.department?.name}</span>
-        <span>{severityHigh ?? severityMedium ?? severityLow}</span>
+        <span className={severityHigh??severityMedium??severityLow}>{severityHigh ?? severityMedium ?? severityLow} <div className="circle"></div></span>
       </div>
       <h3>
         {item?.title} {item?.isResolved ? '(løst)' : null}
@@ -51,10 +52,25 @@ const SupportItem = ({ item, comments }) => {
         </div>
       </footer>
 
-      {startComment > 0 &&
-        <AddComment title={item.title} />
-      }
-    </li>
+     
+      </li>
+      {startComment ?
+       <div className ="comment">
+       <header>
+          <h3>Legg til kommentar</h3>
+          <button onClick={(e) =>{
+            setStartComment(false)
+          }}> X </button>
+       </header>
+
+       <AddComment issue={item} />
+
+      </div>
+      :
+      null  }
+    </div>
+    
+     
   )
 }
 
