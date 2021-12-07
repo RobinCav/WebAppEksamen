@@ -30,8 +30,16 @@ const Rows = () => {
   const handleRowSubmit = async (event) => {
     event.preventDefault();
 
-    // Henter hint ved row submit via gameController
-    const hints = await gameController.getHint(state);
+    // Henter hint ved row submit via api
+    const request = await fetch('/api/v1/hint', {
+      method: 'POST', 
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(state)
+    })
+    const response = await request.json();
+    const hints = response.hints
     const tries = state.currentRow + 1;
 
     console.log( state.game.combination );

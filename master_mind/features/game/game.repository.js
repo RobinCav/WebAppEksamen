@@ -16,17 +16,3 @@ export async function saveGame( combination, user, tries, completion ) {
         return response
     return false
 }
-
-export async function getHintFromApi( state ) {
-    const request = await fetch('/api/v1/hint', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(state)
-    })
-    const response = await request.json();
-    if ( response.success )
-        return response.hints;
-    return false;
-}

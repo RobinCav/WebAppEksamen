@@ -3,7 +3,6 @@ import * as gameRepository from '@/features/game/game.repository'
 import * as gameService from '@/features/game/game.service'
 
 export async function saveGame( combination, user, tries, completion ) {
-
     if ( (user.length>0) && (tries>0) && (completion==true || completion==false) ) {
 
         // Gjort array som inneholder fargekombinasjoner om til string
@@ -11,8 +10,4 @@ export async function saveGame( combination, user, tries, completion ) {
         gameRepository.saveGame( combination_string, user, tries, completion );
 
     }
-}
-
-export async function getHint(state) {
-    return gameRepository.getHintFromApi(state)
 }
