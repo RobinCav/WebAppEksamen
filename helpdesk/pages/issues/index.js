@@ -1,24 +1,16 @@
 import SupportList from '@/components/SupportList.js'
+import { getIssues } from '@/hooks/useIssues';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 
 
 export default function Home() {
-  const [Issues, setIssues] = useState([])
 
-  const getIssues = async () => {
-      const response = await fetch('/api/issues')
-      const data = await response.json()
-      setIssues(data.data)
-    
-  }
-
-  useEffect(() => getIssues(), [])
   return (
    <main>
     <SupportList
-    issues= {Issues} >
+    issues= {getIssues().issues} >
 
     </SupportList>
     </main>
