@@ -1,12 +1,73 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router'
+import validateForm from './validateForm'
 
-const SupportForm = () => {
+
+
+
+
+
+
+export default function SupportForm () {
   const [form, setForm] = useState({
     title: '',
-    creator: '',
     description: '',
+    creator: '',
+    severity: 1,
+    department: 'it', 
+    
   })
 
+  const [departments, setDepartments] = useState([])
+
+  const router = useRouter()
+
+  const goBackToIssues = async () => {
+    const url = '/issues/'
+    router.push(url)
+  }
+  
+  
+  const createIssue = () => async () => {
+      console.log(form.department)
+      for(let i=0; i < departments.length;i++){
+        let dep = departments[i]
+        if(dep.name == form.department){
+         
+            if(validateForm(form) ){
+              let data = JSON.stringify({
+                    
+                title: form.title, 
+                description: form.description,
+                creator: form.creator,
+                severity: parseInt(form.severity),
+                departmentId: dep.id
+              });
+              console.log(data)
+              console.log("dep id: " + dep.id)
+              const result = axios.post("/api/issues",data,{headers:{"Content-Type" : "application/json"}});
+              
+              goBackToIssues()
+            }
+          
+        }
+
+      }
+    
+};
+
+
+  const getDepartments = async () => {
+    const response = await fetch('/api/departments')
+    const data = await response.json()
+    setDepartments(data.data)
+
+  }
+  useEffect(() => getDepartments(), [])
+
+
+ 
   const handleInputOnChange = ({ currentTarget: { name, value } }) =>
     setForm((state) => ({ ...state, [name]: value }))
 
@@ -26,6 +87,7 @@ const SupportForm = () => {
           name="title"
           onChange={handleInputOnChange}
           value={form.title}
+          required
         />
       </div>
       <div>
@@ -36,6 +98,7 @@ const SupportForm = () => {
           name="creator"
           onChange={handleInputOnChange}
           value={form.creator}
+          required
         />
       </div>
       <div>
@@ -46,13 +109,37 @@ const SupportForm = () => {
           name="description"
           onChange={handleInputOnChange}
           value={form.description}
+          required
         />
       </div>
-      <div>{/* TODO Add department */}</div>
-      <div>{/* TODO Add severity */}</div>
-      <button type="sumbit">Send henvendelse</button>
+      <div>
+        <label htmlFor="department">Department</label>
+        <select 
+         id="department"
+         name="department"
+         onChange={handleInputOnChange}
+         value={form.department}        onChange={handleInputOnChange}>
+        {departments?.map((department) => (
+          <option>  {department.name} </option>
+        ))}        </select>
+      </div>
+      <div>
+        <label htmlFor="severity">Severity</label>
+        <select
+        id="severity"
+        name="severity"
+        onChange={handleInputOnChange}
+        value={form.severity}        onChange={handleInputOnChange}>
+          <option value='1'>lav</option>
+          <option value='2'>middels</option>
+          <option value='3'>høy</option>
+
+        </select>
+        
+      </div>
+      <button type="sumbit" onClick= {createIssue( )}>Send henvendelse</button>
     </form>
   )
 }
 
-export default SupportForm
+
