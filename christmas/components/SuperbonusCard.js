@@ -1,9 +1,8 @@
 import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
 
-const Superbonus = ({setSuperbonus, luke}) => {
+const Superbonus = ({setSuperbonus, luke, users}) => {
 
-  const {user, users} = useUser();
 
   const randomWinner = () => {
 

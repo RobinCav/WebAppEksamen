@@ -12,11 +12,6 @@ const Admin = () => {
 
   console.log(slots)
 
-  const products = [
-  {id:1, title: "Luke 1", Dato: "Tilgjengelig fra: 05.12.12", },
-  {id:2,title: "Luke 2", Dato:"Tilgjengelig fra: 05.12.12",  }
-  ]
-
 
   return (
     <div className="background">
