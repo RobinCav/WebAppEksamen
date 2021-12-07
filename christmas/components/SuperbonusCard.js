@@ -6,7 +6,9 @@ const Superbonus = ({setSuperbonus, luke, users}) => {
 
   const randomWinner = () => {
 
-    let randomItem = users[Math.floor(Math.random()*users.length)];
+
+    let uniqueUsers = [... new Set(users)];
+    let randomItem = uniqueUsers[Math.floor(Math.random()*users.length)];
     let winner = randomItem?.username;
     return winner;
 

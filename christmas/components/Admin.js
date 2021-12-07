@@ -19,7 +19,7 @@ const Admin = () => {
    <section className="adminCard">
     {slots?.map((slot) => (
       <AdminCard 
-      Key={slot.id}
+      key={slot.id}
       title={slot.order}
       Dato={slot.openAt}
       userSlots={slot.userSlots}
