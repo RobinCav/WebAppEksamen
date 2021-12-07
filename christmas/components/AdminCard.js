@@ -3,9 +3,14 @@ import { useState } from "react";
 import Superbonus from "./SuperbonusCard";
 
 
-const AdminCard = ({title,Dato,userSlots,users}) => {
+const AdminCard = ({title,Dato,userSlots}) => {
 
   const [superbonus, setSuperbonus] = useState(false);
+  let users= []
+  for(let i=0; i < userSlots.length; i++){
+    users[i]= userSlots[i].user
+  }
+  
 
   console.log(userSlots)
   return (
@@ -38,7 +43,7 @@ const AdminCard = ({title,Dato,userSlots,users}) => {
       </tbody>
     </table>
     </article>
-    {superbonus && <Superbonus setSuperbonus={setSuperbonus} luke={title}/>}
+    {superbonus && <Superbonus users={users} setSuperbonus={setSuperbonus} luke={title}/>}
     </div>
 
 

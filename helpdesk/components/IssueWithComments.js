@@ -60,7 +60,7 @@ const IssueWithComments = ({ item,comments }) => {
         <h2>Comments</h2>
         <div>
           {comments?.map((c) => (
-            <Comment  item={c} />
+            <Comment key={c.id}  item={c} />
           ))}
         </div>
 

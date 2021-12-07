@@ -1,13 +1,14 @@
 import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
 
-const Superbonus = ({setSuperbonus, luke}) => {
+const Superbonus = ({setSuperbonus, luke, users}) => {
 
-  const {user, users} = useUser();
 
   const randomWinner = () => {
 
-    let randomItem = users[Math.floor(Math.random()*users.length)];
+
+    let uniqueUsers = [... new Set(users)];
+    let randomItem = uniqueUsers[Math.floor(Math.random()*users.length)];
     let winner = randomItem?.username;
     return winner;
 
