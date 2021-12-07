@@ -6,8 +6,6 @@ import Row from './Row'
 import Solution from './Solution'
 import { useGameContext } from '@/contexts/game-context'
 
-import * as gameController from '@/features/game/game.controller'
-
 const Rows = () => {
 
   const { state, dispatch } = useGameContext()
@@ -17,8 +15,8 @@ const Rows = () => {
   useEffect( async () => {
     const request = await fetch("http://localhost:3000/api/v1/user");
     const response = await request.json();
-    if ( response.status != 200 )
-      console.log("Something went very wrong");
+    if ( !response.success )
+      console.log( response.message );
     setUser(response.user);
   },[])
 
@@ -40,31 +38,65 @@ const Rows = () => {
       },
       body: JSON.stringify(state)
     })
-    const response = await request.json();
 
-    if ( response.status != 200 )
-      console.log("Something went very wrong");
+    const response = await request.json();
+    if ( !response.success )
+      console.log( response.message );
 
     const hints = response.hints
     const tries = state.currentRow + 1;
 
-    console.log( state.game.combination );
     dispatch({ type: 'set_hints', payload: { hints } });
 
     // Hvis det er 4 riktig position hint, så betyr det at spillet er løst
     if ( hints?.positions === 4 ) {
 
       // Lagrer antall forsøk brukeren brukte for å løse spillet
-      gameController.saveGame( state.game.combination, user, tries, true );
+      const request = await fetch( 'http://localhost:3000/api/v1/game', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            combination: state.game.combination,
+            user: user,
+            tries: tries,
+            completion: true
+        })
+      })
+
+      const response = await request.json()
+      if ( !response.success )
+        console.log( response.message );
+
       dispatch({ type: 'set_complete' });
+
     }
     else {
 
       // Hvis brukeren har gjort 10 forsøk, så er det ikke flere forsøk
       // Lagrer at brukeren ikke klarte å løse spillet
-      if ( tries == 10 )
-        gameController.saveGame( state.game.combination, user, tries, false );
-      
+      if ( tries == 10 ) {
+
+        const request = await fetch( 'http://localhost:3000/api/v1/game', {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              combination: state.game.combination,
+              user: user,
+              tries: tries,
+              completion: false
+          })
+        })
+
+        const response = await request.json()
+        if ( !response.success )
+          console.log( response.message );
+
+      }
+
       dispatch({ type: 'increase_row' });
     }
   }
