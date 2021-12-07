@@ -9,3 +9,34 @@ datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
+
+model comment{
+  id            Int         @id @default(autoincrement())
+  comment       String
+  created_at    DateTime?    @default(now())  
+  issue        issue          @relation(fields: [issueId], references: [id])
+  issueId      Int
+}
+
+model department{
+    id            Int        @id @default(autoincrement())
+    name          String
+    created_at    DateTime?   @default(now())
+    issues        issue[]
+
+}
+
+model issue{
+  id            Int            @id @default(autoincrement())
+  isResolved    Boolean?       @default(false)
+  title         String         @unique
+  description   String
+  creator       String
+  severity      Int            
+  created_at    DateTime?      @default(now())
+  department    department     @relation(fields: [departmentId], references: [id])
+  departmentId  Int
+  comments      comment[]     
+}
+
+
