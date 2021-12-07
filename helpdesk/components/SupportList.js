@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 const SupportList = ({ issues }) => {
 
 
-  const [departments, setDepartments] = useState([])
-
   const [sortType, setSortType] = useState('alle');
   
    
@@ -14,19 +12,18 @@ const SupportList = ({ issues }) => {
 
   return (
     <section className="issues">
+      <header>
+        <h2>Henvendelser</h2>
+        <section>
+            <select onChange={(e) => setSortType(e.target.value)}> 
+              <option value="alle">Avdeling</option>
+              <option value="it">it</option>
+              <option value="salg">salg</option>
+              <option value="design">design</option>
+            </select>
+        </section>
 
-      <h2>Henvendelser</h2>
-      <section>
-        <div>
-        <p> vis etter avdeling </p>
-          <select onChange={(e) => setSortType(e.target.value)}> 
-            <option value="alle">alle</option>
-            <option value="it">it</option>
-            <option value="salg">salg</option>
-            <option value="design">design</option>
-          </select>
-        </div>
-      </section>
+      </header>
 
       <ul>
         {sortType.includes('alle') ?        issues?.map((issue) => (

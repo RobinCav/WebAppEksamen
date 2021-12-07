@@ -2,40 +2,30 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
+import { getIssue } from '@/hooks/useIssues';
 
 
 
 /* eslint-disable no-ternary */
-const AddComment = ({title}) => {
+const AddComment = ({issue}) => {
 
   const [comment, setComment] = useState('')
   const router = useRouter()
 
-  const [Issue, setIssue] = useState([])
-
-
-  const getIssue = async () => {
-      const response = await fetch('/api/issues/' + title )
-      const data = await response.json()
-      setIssue(data.data)
-    
-  }
-  
-  useEffect(() => getIssue(), [])
 
   const handleChange= (event) =>{
       setComment(event.target.value)
    
   }
   const createComment  = async () => {
-    console.log(Issue.title)
+   
     try {
-        if(comment.length <250){
+        if(comment.length <250 && comment.length> 0){
 
           let data = JSON.stringify({
                    
             comment: comment,
-            issueId: Issue.id       
+            issueId: issue.id       
           });
           console.log(data)
     
@@ -44,7 +34,7 @@ const AddComment = ({title}) => {
 
          
         }else{
-          alert("kommentaren bør være 250 bokstaver langt")
+          alert("kommentaren bør ikke være tom og maks ha 250 bokstaver")
         }
 
     } catch (error) {
@@ -53,16 +43,17 @@ const AddComment = ({title}) => {
     
   };
 
-  const url = '/issues/' + title
+   
   return (
     <div>
-        <ul className="comment">
         
-        <input type="text" value={comment} onChange={handleChange}  placeholder="Write a comment..." required />
-        
-        <button type="button" onClick={createComment}>  OK </button>
-          
-      </ul>
+       <main>
+          <input type="text" value={comment} onChange={handleChange}  placeholder="Skriv en kommentar..." required />
+       </main>
+       <footer>
+         <button type="button" onClick={createComment}>  Send </button>
+       </footer>
+     
     </div>
   
   )

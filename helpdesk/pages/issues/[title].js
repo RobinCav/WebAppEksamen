@@ -2,47 +2,30 @@ import SupportItem from '@/components/SupportItem'
 import IssueWithComments from '@/components/IssueWithComments'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import { getIssue } from '@/hooks/useIssues'
 
 
 
 
 
 export default function Home() {
-  const [Issue, setIssue] = useState([])
-  const [comments, setComments] = useState([])
-  const [title, setTitle] = useState('')
-  const router = useRouter();
- 
-  const query = getQuery();
-
-  useEffect( async () => {
-    if (!query) {
-      return;
-    }
-    await getIssue(query.title)
-  }, [query]);
-
- 
-  const getIssue = async (title) => {
-      const response = await fetch('/api/issues/' + title )
-      const data = await response.json()
-      setIssue(data.data)
-      setComments(data.data?.comments)
-    
-  }
   
-
-
- 
+ const router = useRouter()
 
   
 
+  
     return (
       <main>
-    
-       <IssueWithComments item={Issue} comments={comments} >
+        {router.isReady 
+        ?
+        <IssueWithComments item={getIssue(router.query).issue} comments={getIssue(router.query).comments} >
    
-       </IssueWithComments>
+        </IssueWithComments>
+        :
+        null  
+        }
+      
        </main>
      );
   

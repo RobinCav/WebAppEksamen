@@ -28,7 +28,7 @@ const IssueWithComments = ({ item,comments }) => {
         </h2>
         <div className="meta">
           <span>{item?.department?.name}</span>
-          <span>{severityHigh ?? severityMedium ?? severityLow}</span>
+          <span className={severityHigh ?? severityMedium ?? severityLow}>{severityHigh ?? severityMedium ?? severityLow} <div className="circle"></div></span>
         </div>
     
         <p>{item?.description}</p>
@@ -41,9 +41,22 @@ const IssueWithComments = ({ item,comments }) => {
           </div>
         </footer>
       </div>
-      {startComment > 0 &&
-        <AddComment title={item.title} />
-      }
+      {startComment ?
+       <div className ="comment">
+       <header>
+          <h3>Legg til kommentar</h3>
+          <button onClick={(e) =>{
+            setStartComment(false)
+          }}> X </button>
+       </header>
+
+        <AddComment issue={item} />
+
+      </div>
+      :
+      null  }
+       
+
         <h2>Comments</h2>
         <div>
           {comments?.map((c) => (

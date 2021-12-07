@@ -13,12 +13,17 @@ export const listComments = async (req, res) => {
 export const createComment = async (req, res) => {
   const { comment,issueId} = req.body
 
-  // 400 Bad Request hvis email mangler
   if (  !comment  )
     return res
       .status(400)
-      .json({ success: false, error: 'Missing required fields' })
-
+      .json({ success: false, error: 'Mangler kommentar!!' })
+    
+  if(comment.length > 250){
+    return res
+    .status(400)
+    .json({ success: false, error: 'Kommentaren kan ikke være inneholde mer enn 250 bokstaver' })
+  }
+  
   const createdComment = await CommentsService.create({ 
     comment, issueId
     })
@@ -31,7 +36,6 @@ export const createComment = async (req, res) => {
     })
   }
 
-  // 201 Created om alt går bra
   return res.status(201).json({
     success: true,
     data: createdComment.data,
