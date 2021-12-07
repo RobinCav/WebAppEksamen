@@ -1,7 +1,5 @@
 import * as CalendersService from './calenders.service'
 
-
-
 export const listCalenders = async (req, res) => {
   const Calenders = await CalendersService.getToList()
 
@@ -52,8 +50,6 @@ export const createCalender = async (req, res) => {
       .status(400)
       .json({ success: false, error: 'Du må fille alle påkrevde felter....(navn)' })
   
-
-
 
   const createdCalender = await CalendersService.create({ 
     name

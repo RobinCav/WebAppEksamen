@@ -13,6 +13,7 @@ export default function Home() {
     setMount(true);
   },[]);
 
+
   return (
     <div>
       <h1>Julekalender eksamen 2021</h1>
@@ -22,6 +23,7 @@ export default function Home() {
           <Luker user={user}/>
         </>
       ): null}
+      <Footer/>
     </div>
    
   )

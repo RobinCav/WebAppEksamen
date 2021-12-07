@@ -6,13 +6,10 @@ export default function AdminPage() {
 
 const{admin} = useUser()
 
-console.log(admin)
-
-
 return(
   <div >
       {admin ? 
-    <Admin /> :   <h1>Du er ikke en admin</h1>} 
+    <Admin /> :   <h1>Du har ikke tilgang til å se dette innholdet</h1>} 
 
   </div>
 )

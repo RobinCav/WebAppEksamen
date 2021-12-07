@@ -18,6 +18,11 @@ export const findMany = async () => {
       },
       include: {
         userSlots: true,
+        userSlots:{
+          include:{
+            user:true,
+          }
+        }
     },
   })
 

@@ -1,11 +1,13 @@
+import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
 import Superbonus from "./SuperbonusCard";
 
 
+const AdminCard = ({title,Dato,userSlots,users}) => {
 
-const AdminCard = ({title,Dato}) => {
-const [superbonus, setSuperbonus] = useState(false);
+  const [superbonus, setSuperbonus] = useState(false);
 
+  console.log(userSlots)
   return (
     <div>
     <article className="luker">
@@ -25,16 +27,18 @@ const [superbonus, setSuperbonus] = useState(false);
       </tr>
       </thead>
       <tbody>
-        <tr>
-          <td> 1</td>
-          <td> ali </td>
-          <td> 21.11.2021</td>
-          <td className="unntak"> nxwonxownx </td>
-        </tr>
+        {userSlots?.map((us) => (
+          <tr key={us.id}>
+            <td>{us?.id}</td>
+            <td>{us?.user?.username}</td>
+            <td>{us?.user?.createdAt}</td>
+            <td>{us.coupon}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
     </article>
-    {superbonus && <Superbonus setSuperbonus={setSuperbonus}/>}
+    {superbonus && <Superbonus setSuperbonus={setSuperbonus} luke={title}/>}
     </div>
 
 

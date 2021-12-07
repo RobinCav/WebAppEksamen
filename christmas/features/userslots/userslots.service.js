@@ -15,7 +15,9 @@ export const getUserSlotByCoupon = async ({ coupon }) => {
   return { success: true, data: slot.data }
 }
 export const getToList = async () => {
-  const userslot = await userSlotRepo.findMany()
+  const userslot = await userSlotRepo.findMany({
+  
+  })
 
   if (!userslot.success) return { success: false, error: userslot.error }
 

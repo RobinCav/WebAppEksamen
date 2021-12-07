@@ -1,3 +1,4 @@
+import User from '@/components/User'
 import * as UserSlotsService from './userslots.service'
 
 
@@ -10,40 +11,7 @@ export const listUserSlots = async (req, res) => {
   return res.status(200).json(UserSlots)
 }
 
-/*
-export const updateUserSlotbyTitle = async (req, res) => {
-  const { title } = req.query
-  const data = req.body
 
-  if (!title)
-    return res.status(400).json({
-      success: false,
-      error: 'Missing required fields: title',
-    })
-
-    const UserSlot = await UserSlotsService.putByTitle(title, data)
-
-    if (!UserSlot?.success) {
-      switch (UserSlot?.type) {
-        case 'UserSlot.NotExist':
-          return res.status(404).json({
-            success: false,
-            error: UserSlot.error,
-          })
-        case 'UserSlot.Duplicate':
-          return res.status(409).json({
-            success: false,
-            error: UserSlot.error,
-          })
-        default:
-          return res.status(500).json({
-            success: false,
-            error: UserSlot.error,
-          })
-      }
-  }
-}
-*/
 export const createUserSlot = async (req, res) => {
   const { coupon, slotId, userId} = req.body
 
@@ -52,7 +20,9 @@ export const createUserSlot = async (req, res) => {
       .status(400)
       .json({ success: false, error: 'Du må fille alle påkrevde felter....(coupon, slotId, userId..)' })
   
-    
+  const userslot = UserSlotsService.exist(coupon);
+
+  
 
 
   const createdUserSlot = await UserSlotsService.create({ 
