@@ -17,10 +17,10 @@ export const useUser = () => {
     if (users && users.length > 0) return
     const getAllUsers = async () => {
       try {
-        const response = await axios('/api/users')
+        const response = await axios('/api/users/')
 
         if (response?.data?.success) {
-          setUsers(response.data.users)
+          setUsers(response.data.data)
         }
       } catch (error) {
         console.log(error)
